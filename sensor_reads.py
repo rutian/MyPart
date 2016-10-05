@@ -71,6 +71,10 @@ def sample(rounds, data_folder, raw_folder, cycle):
 		print "NUMBER OF READS"
 		print count
 
+# use the sensors inside the box to track light and humidity
+def take_ambient_readings(sample_id, csv_path):
+	arduino.read_from_arduino_sensors(internal_arduino_comport, csv_path, sample_id)
+
 
 # automagic sampling, synchronize every sample to the dylos serial transmissino
 # less restrictions on timing than the fully synchronized sampling 
@@ -100,7 +104,7 @@ def automate_dylos_synchronized(cycles, repeat):
 
 
 
-def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path):
+def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, ambient_csv_path):
 
 	# if they want a mixing stage, then 
 	# need to run the repeats once more than 
@@ -149,6 +153,8 @@ def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dyl
 			# if the sample id = x-0   , then that sample was taken during a vacuum/mix session
 			print('waiting for dylos read')
 			dylos.read_data(dylos_comport, csv_path_dylos, sample_id)
+			take_ambient_readings(sample_id, ambient_csv_path):
+
 
 		# after taking reads, turn the dylos off if a delay is desired
 		# we assume the dylos starts turned on when the program is run
@@ -182,7 +188,7 @@ def main():
 	csv_path_metone = data_folder_path + "/" + csv_name + "_metone.csv"
 	csv_path_dylos = data_folder_path + "/" + csv_name + "_dylos.csv"
 	csv_path_mypart = data_folder_path + "/" + csv_name + "_mypart.csv"
-
+	csv_path_ambient = data_folder_path + "/" + csv_name + "_ambient.csv"
 
 	# sample parameters
 	# ----------------------
@@ -193,7 +199,7 @@ def main():
 	sleep_minutes = .2 # minutes
 
 	# sleep interval must be in seconds                                                                                                                                     # 
-	run_test(cycles, samples, vacuum_time, mix_time, sleep_minutes * 60, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path)
+	run_test(cycles, samples, vacuum_time, mix_time, sleep_minutes * 60, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, ambient_csv_path)
 
 	if (sleep_interval):
 		arduino.toggle_servo(internal_arduino_comport)  # turn if off for the last time!
