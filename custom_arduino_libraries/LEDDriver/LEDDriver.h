@@ -19,6 +19,7 @@ class LEDDriver {
         void setFullyOffTime1(int ms_1, int ms_2);
         void setFullyOffTime2(int ms_1, int ms_2);
         void setMaxIntensity(int percent1, int percent2);
+        void setALDIntensity(int percent);
 
         void setLEDBehavior(int led, int behavior);
 
@@ -27,8 +28,12 @@ class LEDDriver {
 
         enum { 
             LEDoff = 0,
-            LEDon = 1,
-            LEDblink = 2,
+            PinOn = 1,
+            LEDblink0 = 2,
+            LEDblink1 = 3,
+            LEDonMaster = 4,
+            LEDonMax0 = 5,
+            LEDonMax1 = 6,
         };
 };
  

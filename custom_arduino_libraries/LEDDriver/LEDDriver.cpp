@@ -7,6 +7,7 @@ const byte led_driver_address = B1000101;
 const byte default_time = B01000100;
 const byte default_max_intensity = B11111111;
 const byte default_master_intensity = B00001111;
+const byte default_ald_intensity = B00000000;
 
 const byte command = B00010000;
 
@@ -16,12 +17,21 @@ const float percent_params[16] = {0, 6.66, 13.32, 19.98, 26.64, 33.33, 39.96, 46
 
 int en_pin;
 
+//first half of the byte defines bank0 behavior
+//second half of the byte defines bank1 behavior
 byte fade_on_time = default_time;
 byte full_on_time = default_time; 
 byte fade_off_time = default_time;
 byte full_off_time_1 = default_time;
 byte full_off_time_2 = default_time;  
 byte max_intensity = default_max_intensity;
+
+//bits 0-3 set ALD value (0-15)
+//bits 4-5 determine whether the maximum intensity of PWM0 and PWM1 is set by the programmed F value (BRIGHT_F0 or BRIGHT_F1) or the master ALD value
+//The default value for these bits is 0
+// Bits 6–7 determine whether each PWM operates in normal or one-shot mode
+//see page 25 of datasheet
+byte ald_intensity = default_ald_intensity;
 
 byte selects[3] = {0, 0, 0};
 
@@ -61,6 +71,7 @@ void LEDDriver::sendCommands(){
   Wire.write(full_off_time_1);
   Wire.write(full_off_time_2);
   Wire.write(max_intensity);
+  Wire.write(ald_intensity);
   byte result = Wire.endTransmission();
   if (result == 0) {
     Serial.println("\n Successful command");
@@ -134,6 +145,12 @@ void LEDDriver::setMaxIntensity(int percent1, int percent2){
   max_intensity = (b1 << 4) | b0;
 };
 
+void LEDDriver::setALDIntensity(int percent) {
+  byte b1 = 0; //if want control over one-shot mode, etc., modify this
+  byte b0 = percentToScale(percent);
+  ald_intensity = (b1 << 4) | b0;
+};
+
 
 // --------- Setting Select Registers -----------
 
@@ -154,7 +171,7 @@ byte setLEDToOff(byte select, int led, int select_num) {
   return maskToZero(select, led);
 }
 
-//100 LED fully on
+//100 LED fully on -- can be used as General Purpose Out
 byte setLEDToOn(byte select, int led, int select_num) {
   if (select_num == 2) {
    return maskToOne(select, led);
@@ -164,7 +181,39 @@ byte setLEDToOn(byte select, int led, int select_num) {
 }
   
 //110 blinking with bank 0 rules
-byte setLEDToBlink(byte select, int led, int select_num) {
+byte setLEDToBlink_Bank0(byte select, int led, int select_num) {
+  if (select_num == 0) {
+    return maskToZero(select, led);
+  } else {
+   return maskToOne(select, led); 
+  }
+}
+
+//111 blinking with bank 1 rules
+byte setLEDToBlink_Bank1(byte select, int led, int select_num) {
+   return maskToOne(select, led); 
+}
+
+//101 LED on at brightness set by Master Intensity 
+byte setLEDToOnMasterIntensity(byte select, int led, int select_num) {
+  if (select_num == 1) {
+    return maskToZero(select, led);
+  } else {
+   return maskToOne(select, led); 
+  }
+}
+
+//010  LED on with maximum intensity value of PWM0
+byte setLEDToOnMaxIntensity_Bank0(byte select, int led, int select_num) {
+  if (select_num == 1) {
+    return maskToOne(select, led);
+  } else {
+   return maskToZero(select, led); 
+  }
+}
+
+//011  LED on with maximum intensity value of PWM1
+byte setLEDToOnMaxIntensity_Bank1(byte select, int led, int select_num) {
   if (select_num == 0) {
     return maskToZero(select, led);
   } else {
@@ -173,16 +222,35 @@ byte setLEDToBlink(byte select, int led, int select_num) {
 }
 
 
+
+
 // -------- LED Behaviors ----------
+
 void LEDDriver::setLEDBehavior(int led, int behavior){
   for (int select_num = 0; select_num < 3; select_num++) {
-     if (behavior == LEDoff) {
-       selects[select_num] = setLEDToOff(selects[select_num], led, select_num); 
-     } else if (behavior == LEDon) {
-       selects[select_num] = setLEDToOn(selects[select_num], led, select_num); 
-     } else if (behavior == LEDblink) {
-       selects[select_num] = setLEDToBlink(selects[select_num], led, select_num); 
-     }
+    switch(behavior) {
+      case LEDoff:
+        selects[select_num] = setLEDToOff(selects[select_num], led, select_num); 
+        break;
+      case PinOn:
+        selects[select_num] = setLEDToOn(selects[select_num], led, select_num); 
+        break;
+      case LEDblink0:
+        selects[select_num] = setLEDToBlink_Bank0(selects[select_num], led, select_num); 
+        break;
+      case LEDblink1:
+        selects[select_num] = setLEDToBlink_Bank1(selects[select_num], led, select_num); 
+        break;
+      case LEDonMaster:
+        selects[select_num] = setLEDToOnMasterIntensity(selects[select_num], led, select_num); 
+        break;
+      case LEDonMax0:
+        selects[select_num] = setLEDToOnMaxIntensity_Bank0(selects[select_num], led, select_num); 
+        break;
+      case LEDonMax1:
+        selects[select_num] = setLEDToOnMaxIntensity_Bank1(selects[select_num], led, select_num); 
+        break;
+    }
   }
 }
 
