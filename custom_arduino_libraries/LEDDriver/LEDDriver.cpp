@@ -153,6 +153,7 @@ void LEDDriver::setALDIntensity(int percent) {
 
 
 // --------- Setting Select Registers -----------
+// Note: select_num counts from R to L
 
 byte maskToZero(byte b, int place) {
   byte mask = 1 << place;
@@ -214,7 +215,7 @@ byte setLEDToOnMaxIntensity_Bank0(byte select, int led, int select_num) {
 
 //011  LED on with maximum intensity value of PWM1
 byte setLEDToOnMaxIntensity_Bank1(byte select, int led, int select_num) {
-  if (select_num == 0) {
+  if (select_num == 2) {
     return maskToZero(select, led);
   } else {
    return maskToOne(select, led); 
