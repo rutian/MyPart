@@ -34,6 +34,7 @@ def toggle_servo(comport):
 	with serial.Serial(comport, baud, timeout=tm) as ser:
 		time.sleep(3) #apparently needs a delay for arduino to notice
 		ser.write(servo_on)
+		time.sleep(1) #delay to keep arduino in sync
 
 def read_from_arduino_sensors(comport, csv_path, sample_id):
 	with serial.Serial(comport, baud, timeout=tm) as ser:
@@ -52,4 +53,8 @@ def read_from_arduino_sensors(comport, csv_path, sample_id):
 
 # Testing:
 # read_from_arduino_sensors('/dev/cu.usbmodem1431', "lighttest.csv", 1)
+# toggle_servo('/dev/cu.usbmodem1431')
 # set_high('/dev/cu.usbmodem1431')
+# time.sleep(3)
+# set_low('/dev/cu.usbmodem1431')
+

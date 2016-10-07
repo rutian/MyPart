@@ -9,7 +9,7 @@
 Servo sv;
 
 int active_pin = 4;
-int servo_pin = 9;
+int servo_pin = 3;
 int off_degree = 90;
 int on_degree = 40;
 
