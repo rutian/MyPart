@@ -45,20 +45,13 @@ LEDDriver::~LEDDriver(){}
 
 //call this in the setup function
 void LEDDriver::setup(int ep) {
-  Wire.begin();
-  Serial.begin(9600);
-  while (!Serial);
-  Serial.println("\n LED Driver Initiated");
-  en_pin = ep;
-  pinMode(en_pin, OUTPUT);
+  //en_pin = ep;
+  //pinMode(en_pin, OUTPUT);
 }
 
 //write all commands to board
 void LEDDriver::sendCommands(){
   Wire.beginTransmission(led_driver_address);
-    Serial.print("\n Sending command to driver at ");
-    Serial.print(led_driver_address, HEX);
-    Serial.print("\n");
   Wire.write(command);
   //order of writes matters! 
   //will write to registers in order for each feature
@@ -74,9 +67,7 @@ void LEDDriver::sendCommands(){
   Wire.write(ald_intensity);
   byte result = Wire.endTransmission();
   if (result == 0) {
-    Serial.println("\n Successful command");
   } else {
-    Serial.println("\n Error in sending command. Check device connection and address");
   }
 }
 
