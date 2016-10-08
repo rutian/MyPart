@@ -13,6 +13,7 @@ dylos_comport = '/dev/cu.usbserial'
 hhpc_comport = '/dev/cu.KeySerial1'
 internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
 external_arduino_comport = '/dev/cu.usbmodem1431' #vacuum
+gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
 
 csv_name = 'air_sensor_data'
 
@@ -72,7 +73,7 @@ def sample(rounds, data_folder, raw_folder, cycle):
 		print count
 
 # use the sensors inside the box to track light and humidity
-def take_ambient_readings(sample_id, csv_path):
+def record_ambient_readings(sample_id, csv_path):
 	arduino.read_from_arduino_sensors(internal_arduino_comport, csv_path, sample_id)
 
 
@@ -104,7 +105,7 @@ def automate_dylos_synchronized(cycles, repeat):
 
 
 
-def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, ambient_csv_path):
+def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient):
 
 	# if they want a mixing stage, then 
 	# need to run the repeats once more than 
@@ -144,16 +145,24 @@ def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dyl
 
 			else: # time to sample, must happen in less than 60s
 				print('at cycle {0}-{1} of {2}: sampling data'.format(i, j, cycles))
-				# hhpc.start_count(hhpc_comport) # start the count (non-blocking)
+				hhpc.start_count(hhpc_comport) # start the count (non-blocking)
+				print('\t hhpc sampling...')
 				# raw.sample_and_write_analog([0,1,2], 45, raw_sample_folder_path, sample_id ) # raw analog sampling (THIS IS BLOCKING)
-				# hhpc.get_buffer_record(hhpc_comport, csv_path_metone, sample_id) # not blocking 
+				arduino.start_mypart_sample(internal_arduino_comport)
+				print('\t myparts sampling...')
 
 			# read the dylos... the data taken here should be an average of the last minute (synchronized with our other reads) 
 			# must run this no matter what so we stay synchronized. toss out data later
 			# if the sample id = x-0   , then that sample was taken during a vacuum/mix session
 			print('waiting for dylos read')
 			dylos.read_data(dylos_comport, csv_path_dylos, sample_id)
-			take_ambient_readings(sample_id, ambient_csv_path):
+			print('dylos recorded')
+			hhpc.get_buffer_record(hhpc_comport, csv_path_metone, sample_id) # not blocking 
+			print('hhpc recorded')
+			record_ambient_readings(sample_id, csv_path_ambient)
+			print('ambient data recorded')
+			arduino.record_mypart_data(gzll_rfduino_comport, internal_arduino_comport, csv_path_mypart, sample_id)
+			print('mypart recorded')
 
 
 		# after taking reads, turn the dylos off if a delay is desired
@@ -199,7 +208,7 @@ def main():
 	sleep_minutes = .2 # minutes
 
 	# sleep interval must be in seconds                                                                                                                                     # 
-	run_test(cycles, samples, vacuum_time, mix_time, sleep_minutes * 60, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, ambient_csv_path)
+	run_test(cycles, samples, vacuum_time, mix_time, sleep_minutes * 60, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient)
 
 	if (sleep_interval):
 		arduino.toggle_servo(internal_arduino_comport)  # turn if off for the last time!

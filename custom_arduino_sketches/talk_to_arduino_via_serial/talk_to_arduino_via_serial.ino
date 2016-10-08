@@ -10,6 +10,8 @@ Servo sv;
 
 int active_pin = 4;
 int servo_pin = 3;
+int mypart_pins[] = [5,6,7]; //must match number of myparts in arduino_serial_com.py
+int num_myparts = sizeof(mypart_pins) / sizeof(int);
 int off_degree = 90;
 int on_degree = 40;
 
@@ -21,6 +23,8 @@ char PIN_ON = 'a';
 char PIN_OFF = 'b';
 char SERVO_ON = 'c';
 char TAKE_AMBIENT_READS = 'd';
+char SAMPLE_MYPART = 'e';
+char SEND_MYPART = 'f';
 
 void configureSensor() {
   tsl.enableAutoRange(true);            /* Auto-gain ... switches automatically between 1x and 16x */
@@ -43,21 +47,41 @@ void setup() {
 void loop() {
   if (Serial.available()) {
     char ser = Serial.read();
-    if (ser  == PIN_ON) {
-      digitalWrite(active_pin, HIGH);
-      digitalWrite(LED_BUILTIN, HIGH);
-   } else if (ser == PIN_OFF) {
-      digitalWrite(active_pin, LOW);
-      digitalWrite(LED_BUILTIN, LOW); 
-   } else if (ser == SERVO_ON) {
-      sv.write(on_degree);
-      delay(500);
-      sv.write(off_degree);
-   } else if (ser == TAKE_AMBIENT_READS) {
-      sensors_event_t event;
-      tsl.getEvent(&event);
-      byte *b = (byte*) &event.light;
-      Serial.write(b, 4);
-   }
+    switch(ser) {
+      case PIN_ON:
+        digitalWrite(active_pin, HIGH);
+        digitalWrite(LED_BUILTIN, HIGH);
+        break;
+      case PIN_OFF:
+        digitalWrite(active_pin, LOW);
+        digitalWrite(LED_BUILTIN, LOW); 
+        break;
+      case SERVO_ON:
+        sv.write(on_degree);
+        delay(500);
+        sv.write(off_degree);
+        break;
+      case TAKE_AMBIENT_READS:
+        sensors_event_t event;
+        tsl.getEvent(&event);
+        byte *b = (byte*) &event.light;
+        Serial.write(b, 4);
+        break;
+      case SAMPLE_MYPART:
+        for (int i = 0; i < num_myparts; i++) {
+           digitalWrite(mypart_pins[i], LOW);
+        }
+        delay(200);
+        for (int i = 0; i < num_myparts; i++) {
+           digitalWrite(mypart_pins[i], HIGH);
+        }
+        break;
+      case SEND_MYPART:
+        int mp = Serial.read();
+        digitalWrite(mypart_pins[mp], LOW);
+        delay(1000);
+        digitalWrite(mypart_pins[mp], HIGH);
+        break;
+    }
   }
 }
