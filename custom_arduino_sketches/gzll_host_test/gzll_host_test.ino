@@ -19,28 +19,20 @@ void loop() {
 }
 
 void RFduinoGZLL_onReceive(device_t device, int rssi, char *data, int len) {
-//    Serial.print(device);
-//    Serial.print("\n");
     struct sensor_data packet;
+    
     if (device == DEVICE0){
        memcpy(&packet, &data[0], len);
     }
 
-    Serial.write(device);
-    Serial.write(packet.small);
-    Serial.write(packet.large);
-    Serial.write(packet.humidity);
-    Serial.write(packet.temperature);
+    int d = (int) device;
 
-    
-//    Serial.print(packet.small);
-////    Serial.print("\n");
-//    Serial.print(packet.large);
-////    Serial.print("\n");
-//    Serial.print(packet.humidity);
-////    Serial.print("\n");
-//    Serial.print(packet.temperature);
-////    Serial.print("\n");
+    Serial.write((byte*) &d, 4);
+    Serial.write((byte*) &packet.small, 4);
+    Serial.write((byte*) &packet.large, 4);
+    Serial.write((byte*) &packet.humidity, 4);
+    Serial.write((byte*) &packet.temperature, 4);
+
 }
 
     
