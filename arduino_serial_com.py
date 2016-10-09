@@ -15,7 +15,7 @@ read_sensors = 'd'
 sample_mypart = 'e'
 send_mypart_data = 'f'
 
-num_myparts = 3
+num_myparts = 1
 
 def set_manual(comport):
 	with serial.Serial(comport, baud, timeout=tm) as ser:
@@ -54,7 +54,7 @@ def read_from_arduino_sensors(comport, csv_path, sample_id):
 			w = csv.writer(csvfile)
 			w.writerow([sample_id, datetime.datetime.now(), f_lux, hum])
 
-def start_mypart_sample(internal_arduino_comport):
+def start_mypart_sample(comport):
 	with serial.Serial(comport, baud, timeout=tm) as ser:
 		time.sleep(3) #apparently needs a delay for arduino to notice
 		ser.write(sample_mypart)
@@ -65,7 +65,8 @@ def record_mypart_data(gzll_comport, mypart_comport, csv_path, sample_id):
 			time.sleep(3)
 			for count in range(0, num_myparts):
 				mypart_ser.write(send_mypart_data)
-				mypart_ser.write(count)
+				count_bytes = str(count).encode()
+				mypart_ser.write(count_bytes)
 				d_id = gzll_ser.read(4)
 				device_id = struct.unpack('i', d_id)[0]
 				f1 = gzll_ser.read(4)
@@ -87,4 +88,12 @@ def record_mypart_data(gzll_comport, mypart_comport, csv_path, sample_id):
 # set_high('/dev/cu.usbmodem1431')
 # time.sleep(3)
 # set_low('/dev/cu.usbmodem1431')
+
+
+internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
+# gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
+start_mypart_sample(internal_arduino_comport)
+
+# record_mypart_data(gzll_rfduino_comport, internal_arduino_comport, "/test.csv", 1)
+
 

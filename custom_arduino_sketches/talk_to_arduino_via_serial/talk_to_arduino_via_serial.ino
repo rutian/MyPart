@@ -10,7 +10,7 @@ Servo sv;
 
 int active_pin = 4;
 int servo_pin = 3;
-int mypart_pins[] = [5,6,7]; //must match number of myparts in arduino_serial_com.py
+int mypart_pins[] = {6}; //must match number of myparts in arduino_serial_com.py
 int num_myparts = sizeof(mypart_pins) / sizeof(int);
 int off_degree = 90;
 int on_degree = 40;
@@ -19,12 +19,12 @@ Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 1234
 
 
 //these signals need to match the python code
-char PIN_ON = 'a';
-char PIN_OFF = 'b';
-char SERVO_ON = 'c';
-char TAKE_AMBIENT_READS = 'd';
-char SAMPLE_MYPART = 'e';
-char SEND_MYPART = 'f';
+const char PIN_ON = 'a';
+const char PIN_OFF = 'b';
+const char SERVO_ON = 'c';
+const char TAKE_AMBIENT_READS = 'd';
+const char SAMPLE_MYPART = 'e';
+const char SEND_MYPART = 'f';
 
 void configureSensor() {
   tsl.enableAutoRange(true);            /* Auto-gain ... switches automatically between 1x and 16x */
@@ -35,6 +35,9 @@ void setup() {
   Serial.begin(9600);
   //Set all the pins we need to output pins
   pinMode(active_pin, OUTPUT);
+  for (int i = 0; i < num_myparts; i++) {
+    pinMode(mypart_pins[i], OUTPUT);
+  }
   pinMode(LED_BUILTIN, OUTPUT);
   sv.attach(servo_pin, 771, 1798);
   if(!tsl.begin()) {
@@ -61,12 +64,13 @@ void loop() {
         delay(500);
         sv.write(off_degree);
         break;
-      case TAKE_AMBIENT_READS:
+      case TAKE_AMBIENT_READS: {
         sensors_event_t event;
         tsl.getEvent(&event);
-        byte *b = (byte*) &event.light;
-        Serial.write(b, 4);
+        byte *b1 = (byte*) &event.light;
+        Serial.write(b1, 4);
         break;
+      }
       case SAMPLE_MYPART:
         for (int i = 0; i < num_myparts; i++) {
            digitalWrite(mypart_pins[i], LOW);
