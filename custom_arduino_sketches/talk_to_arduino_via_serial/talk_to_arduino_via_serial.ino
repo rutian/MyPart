@@ -5,6 +5,7 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_TSL2561_U.h>
+#include <HumiditySensor.h>
 
 Servo sv;
 
@@ -16,7 +17,7 @@ int off_degree = 90;
 int on_degree = 40;
 
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
-
+HumiditySensor humSensor = HumiditySensor();
 
 //these signals need to match the python code
 const char PIN_ON = 'a';
@@ -26,7 +27,7 @@ const char TAKE_AMBIENT_READS = 'd';
 const char SAMPLE_MYPART = 'e';
 const char SEND_MYPART = 'f';
 
-void configureSensor() {
+void configureLightSensor() {
   tsl.enableAutoRange(true);            /* Auto-gain ... switches automatically between 1x and 16x */
   tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS);      /* fast but low resolution */
 }
@@ -44,7 +45,8 @@ void setup() {
     Serial.print("Ooops, no TSL2561 detected ... Check your wiring or I2C ADDR!");
     while(1);
   }
-  configureSensor();
+  configureLightSensor();
+  humSensor.setup();
 }
 
 void loop() {
@@ -69,6 +71,10 @@ void loop() {
         tsl.getEvent(&event);
         byte *b1 = (byte*) &event.light;
         Serial.write(b1, 4);
+        float temp = humSensor.getTemperature();
+        float hum = humSensor.getHumidity();
+        Serial.write((byte*) &temp, 4);
+        Serial.write((byte*) &hum, 4);
         break;
       }
       case SAMPLE_MYPART:

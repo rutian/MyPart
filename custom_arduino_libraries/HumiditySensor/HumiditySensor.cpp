@@ -39,9 +39,9 @@ void HumiditySensor::setup(){
   Wire.write(parameter_byte_2);
   Wire.endTransmission();
 
-  Serial.begin(9600);
-  while (!Serial);
-  Serial.println("\n Humidity Sensor Initiated");
+  // Serial.begin(9600);
+  // while (!Serial);
+  // Serial.println("\n Humidity Sensor Initiated");
 }
 
 //returns degrees celsius (see data sheet)
@@ -68,9 +68,9 @@ long combine_bytes(byte a, byte b) {
 
 long getReading(byte register_addr) {
 	Wire.beginTransmission(sensor_address);
-		Serial.print("\n Sending command to sensor at ");
-		Serial.print(sensor_address, HEX);
-		Serial.print("\n");
+		// Serial.print("\n Sending command to sensor at ");
+		// Serial.print(sensor_address, HEX);
+		// Serial.print("\n");
 
 	Wire.write(register_addr);
 	Wire.endTransmission();
@@ -82,7 +82,7 @@ long getReading(byte register_addr) {
 	Wire.requestFrom((int) sensor_address, 2);
 	
 	if (Wire.available() != 2) {
-		Serial.println("Error reading sensor; too few bytes returned.");
+		// Serial.println("Error reading sensor; too few bytes returned.");
 	} else {
 	 	byte result_1 = Wire.read(); 
 	 	byte result_2 = Wire.read(); 
@@ -97,16 +97,16 @@ float HumiditySensor::getTemperature(){
 	long raw_temp = getReading(temperature_register);
 
 	if (raw_temp == -1) {
-		Serial.println("Error reading temperature");
+		// Serial.println("Error reading temperature");
 		return -1;
 	}
 
  	//convert to degrees celsius
  	float temperature = temperatureConversion(raw_temp);
 
-	    Serial.print("Temperature: ");  
-	    Serial.print(temperature);        
-	    Serial.print("\n");
+	    // Serial.print("Temperature: ");  
+	    // Serial.print(temperature);        
+	    // Serial.print("\n");
 
 	return temperature;
 }
@@ -116,16 +116,16 @@ float HumiditySensor::getHumidity(){
 	long raw_hum = getReading(humidity_register);
 
 	if (raw_hum == -1) {
-		Serial.println("Error reading temperature");
+		// Serial.println("Error reading temperature");
 		return -1;
 	}
 
  	//convert to degrees celsius
  	float humidity = humidityConversion(raw_hum);
 
-	    Serial.print("Humidity: ");  
-	    Serial.print(humidity);        
-	    Serial.print("\n");
+	    // Serial.print("Humidity: ");  
+	    // Serial.print(humidity);        
+	    // Serial.print("\n");
 
 	return humidity;
 }

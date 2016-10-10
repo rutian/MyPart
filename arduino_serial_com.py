@@ -40,6 +40,8 @@ def toggle_servo(comport):
 		ser.write(servo_on)
 		time.sleep(1) #delay to keep arduino in sync
 
+
+# reports <sample id, date, light, temperature, humidity>
 def read_from_arduino_sensors(comport, csv_path, sample_id):
 	with serial.Serial(comport, baud, timeout=tm) as ser:
 		time.sleep(3) #apparently needs a delay for arduino to notice
@@ -48,11 +50,14 @@ def read_from_arduino_sensors(comport, csv_path, sample_id):
 		# blocks until it can read 4 bytes back from the arduino
 		lux = ser.read(4) #lux is reported as a uint32_t (4 bytes)
 		f_lux = struct.unpack('f', lux)[0]
-		# hum = ser.read()
-		hum = 0
+		temp = ser.read(4)
+		f_temp = struct.unpack('f', temp)[0]
+		hum = ser.read(4)
+		f_hum = struct.unpack('f', hum)[0]
+		# hum = 0
 		with open(csv_path, 'a') as csvfile:
 			w = csv.writer(csvfile)
-			w.writerow([sample_id, datetime.datetime.now(), f_lux, hum])
+			w.writerow([sample_id, datetime.datetime.now(), f_lux, f_temp, f_hum])
 
 def start_mypart_sample(comport):
 	with serial.Serial(comport, baud, timeout=tm) as ser:
@@ -90,7 +95,9 @@ def record_mypart_data(gzll_comport, mypart_comport, csv_path, sample_id):
 # set_low('/dev/cu.usbmodem1431')
 
 
-# internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
+internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
+read_from_arduino_sensors(internal_arduino_comport, "test_internals.csv", 10)
+
 # gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
 # start_mypart_sample(internal_arduino_comport)
 

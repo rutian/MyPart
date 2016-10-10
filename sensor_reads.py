@@ -207,7 +207,7 @@ def main():
 	mix_time = 0 # seconds
 	sleep_minutes = 0 # minutes
 
-	# sleep interval must be in seconds                                                                                                                                     # 
+	# sleep interval must be in seconds                                                                                                                                     
 	run_test(cycles, samples, vacuum_time, mix_time, sleep_minutes * 60, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient)
 
 	if (sleep_interval):
