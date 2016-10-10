@@ -77,20 +77,20 @@ void loop() {
         Serial.write((byte*) &hum, 4);
         break;
       }
-      case SAMPLE_MYPART:
-        for (int i = 0; i < num_myparts; i++) {
-           digitalWrite(mypart_pins[i], LOW);
-        }
-        delay(200);
+      case SAMPLE_MYPART: 
         for (int i = 0; i < num_myparts; i++) {
            digitalWrite(mypart_pins[i], HIGH);
+        }
+        delay(400);
+        for (int i = 0; i < num_myparts; i++) {
+           digitalWrite(mypart_pins[i], LOW);
         }
         break;
       case SEND_MYPART:
         int mp = Serial.read();
-        digitalWrite(mypart_pins[mp], LOW);
-        delay(1000);
         digitalWrite(mypart_pins[mp], HIGH);
+        delay(1000);
+        digitalWrite(mypart_pins[mp], LOW);
         break;
     }
   }

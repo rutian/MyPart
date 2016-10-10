@@ -33,9 +33,9 @@ void RFduinoGZLL_onReceive(device_t device, int rssi, char *data, int len) {
 
     int d = (int) device;
 
-    Serial.write((byte*) d, 4);
-    Serial.write((byte*) packet.small, 4);
-    Serial.write((byte*) packet.large, 4);
+    Serial.write((byte*) &d, 4);
+    Serial.write((byte*) &packet.small, 4);
+    Serial.write((byte*) &packet.large, 4);
     Serial.write((byte*) &packet.humidity, 4);
     Serial.write((byte*) &packet.temperature, 4);
 

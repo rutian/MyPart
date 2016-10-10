@@ -95,12 +95,13 @@ def record_mypart_data(gzll_comport, mypart_comport, csv_path, sample_id):
 # set_low('/dev/cu.usbmodem1431')
 
 
-internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
-read_from_arduino_sensors(internal_arduino_comport, "test_internals.csv", 10)
+# internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
+# start_mypart_sample(internal_arduino_comport)
+# read_from_arduino_sensors(internal_arduino_comport, "test_internals.csv", 10)
 
 # gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
 # start_mypart_sample(internal_arduino_comport)
 
-# record_mypart_data(gzll_rfduino_comport, internal_arduino_comport, "/test.csv", 1)
+# record_mypart_data(gzll_rfduino_comport, internal_arduino_comport, "aflkdjf.csv", 1)
 
 

@@ -204,7 +204,7 @@ def main():
 	cycles = 40
 	samples = 2
 	vacuum_time = 0 # seconds
-	mix_time = 0 # seconds
+	mix_time = 40 # seconds
 	sleep_minutes = 0 # minutes
 
 	# sleep interval must be in seconds                                                                                                                                     
