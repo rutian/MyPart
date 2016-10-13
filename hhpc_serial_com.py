@@ -67,8 +67,8 @@ def get_buffer_record(comport, csvname, sample_id):
 	channel6 = extract_4_channel(dba, 21)
 	# "SECONDS SINCE 12am Jan 1 1900"
 	datetime = extract_4_channel(dba, 25)
-	# "Deg cel * 100"
-	temperature = extract_2_channel(dba, 29)
+	# "Deg cel"
+	temperature = extract_2_channel(dba, 29)/100
 	humidity = extract_2_channel(dba, 31)
 
 	write_to_csv(sample_id, channel1, channel2, channel3, channel4, channel5, channel6, temperature, humidity, csvname)
