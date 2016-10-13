@@ -11,7 +11,7 @@ import os
 
 dylos_comport = '/dev/cu.usbserial'
 hhpc_comport = '/dev/cu.KeySerial1'
-internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
+internal_arduino_comport = '/dev/cu.usbmodem1530' #fan and dylos
 external_arduino_comport = '/dev/cu.usbmodem1431' #vacuum
 gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
 
@@ -207,8 +207,9 @@ def main():
 	mix_time = 40 # seconds
 	sleep_minutes = 0 # minutes
 
-	# sleep interval must be in seconds                                                                                                                                     
-	run_test(cycles, samples, vacuum_time, mix_time, sleep_minutes * 60, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient)
+	sleep_interval = sleep_minutes * 60  # sleep interval must be in seconds                                                                                                                         
+
+	run_test(cycles, samples, vacuum_time, mix_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient)
 
 	if (sleep_interval):
 		arduino.toggle_servo(internal_arduino_comport)  # turn if off for the last time!
