@@ -18,22 +18,18 @@ def set_manual(ser):
 		ser.write(pin_on)
 
 def set_high(ser):
-	# time.sleep(3) #apparently needs a delay for arduino to notice
 	ser.write(pin_on)
 		
 def set_low(ser):
-	# time.sleep(3) #apparently needs a delay for arduino to notice
 	ser.write(pin_off)
 
 def toggle_servo(ser):
-	# time.sleep(3) #apparently needs a delay for arduino to notice
 	ser.write(servo_on)
 	time.sleep(1) #delay to keep arduino in sync
 
 
 # reports <sample id, date, light, temperature, humidity>
 def read_from_arduino_sensors(ser, csv_path, sample_id):
-	# time.sleep(3) #apparently needs a delay for arduino to notice
 	ser.write(read_sensors)
 
 	# blocks until it can read 4 bytes back from the arduino
@@ -48,11 +44,9 @@ def read_from_arduino_sensors(ser, csv_path, sample_id):
 		w.writerow([sample_id, datetime.datetime.now(), f_lux, f_temp, f_hum])
 
 def start_mypart_sample(ser):
-	# time.sleep(3) #apparently needs a delay for arduino to notice
 	ser.write(sample_mypart)
 
 def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
-	# time.sleep(3)
 	mypart_ser.write(send_mypart_data)
 	for count in range(0, num_myparts):			
 		d_id = gzll_ser.read(4)

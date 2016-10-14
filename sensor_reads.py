@@ -44,6 +44,10 @@ sleep_minutes = 0 # how many minutes you want the chamber off for in between cyc
 num_myparts = 1 # how many myparts you are testing at once
 
 
+
+
+
+
 # 
 # collect and record samples from sensors in the chamber
 # keep measurements synchronized on dylos 
