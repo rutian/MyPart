@@ -12,7 +12,7 @@ import os
 
 dylos_comport = '/dev/cu.usbserial'
 hhpc_comport = '/dev/cu.KeySerial1'
-internal_arduino_comport = '/dev/cu.usbmodem1530' #fan, dylos, ambient chamber readings, 
+internal_arduino_comport = '/dev/cu.usbmodem8044' #fan, dylos, ambient chamber readings, 
 external_arduino_comport = '/dev/cu.usbmodem1431' #vacuum
 gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
 
@@ -27,10 +27,10 @@ parent_folder_path = '/Users/Paulosophers/Desktop/mypart/automated_tests_data/'
 # testing parameters
 # ----------------------
 
-cycles = 40
+cycles = 1
 samples = 2
 vacuum_time = 0 # seconds to run vacuum
-mix_time = 40 # seconds to run fan; if you want to mix continuously during measurement, this should be -1
+mix_time = 5 # seconds to run fan; if you want to mix continuously during measurement, this should be -1
 sleep_minutes = 0 # how many minutes you want the chamber off for in between cycles
 
 
@@ -46,17 +46,22 @@ def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dyl
 	print('-------------------------------')
 
 	# synchronize to the dylos
-	dylos.read_data(dylos_comport, csv_path_dylos, '0-0')
+	dylos.sync_timing(dylos_comport)
 
 	# loop through the number of cycles we want
  	for i in range(cycles):
 
  		if (mix_time == -1):
+ 			print('turning on fans')
  			tc.constant_mix_on(internal_arduino_comport)
 
- 		elif ((vacuum_time or mix_time)): # time to mix, must happen in less than 60sec 
- 			print('at cycle {0}-{1} of {2}: vacuum and mix'.format(i, 0, cycles))
-			tc.intermittent_mix_or_vacuum(i, cycles, vacuum_time, mix_time)
+ 		# only do these if the time is > 0
+ 		if ((vacuum_time or mix_time) and mix_time is not -1): # time to mix, must happen in less than 60sec 
+ 			print('at cycle {0} of {1}: vacuum and mix'.format(i, cycles))
+			tc.intermittent_mix_or_vacuum(vacuum_time, mix_time, internal_arduino_comport, external_arduino_comport)
+			# stay in sync but don't record the data
+			print('waiting for dylos...')
+			dylos.sync_timing(dylos_comport)
 
 		for j in range(repeat):	
 			# make that terminal output look gucci
@@ -78,7 +83,7 @@ def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dyl
 		# after taking reads, turn the dylos off if a delay is desired
 		# we assume the dylos starts turned on when the program is run
 		if (sleep_interval):
-			tc.sleep()
+			tc.sleep(internal_arduino_comport, sleep_interval)
 
 	# turn dylos off for the last time!	
 	if (sleep_interval):

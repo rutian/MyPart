@@ -5,6 +5,10 @@ import datetime
 baud = 9600
 tm = 100
 
+def sync_timing(comport):
+	with serial.Serial(comport, baud, timeout=tm, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as ser:
+		line = ser.readline()
+
 def read_data(comport, csvname, sample_id):
 	with serial.Serial(comport, baud, timeout=tm, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as ser:
 		line = ser.readline()
