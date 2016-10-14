@@ -4,9 +4,6 @@ import datetime
 import time
 import struct
 
-baud = 9600
-tm = 10000
-
 # these need to match the arduino code
 pin_on = 'a'
 pin_off = 'b'
@@ -15,92 +12,59 @@ read_sensors = 'd'
 sample_mypart = 'e'
 send_mypart_data = 'f'
 
-num_myparts = 1
-
-def set_manual(comport):
-	with serial.Serial(comport, baud, timeout=tm) as ser:
-		while True:
-			r = raw_input("a or b:")
-			ser.write(pin_on)
-
-def set_high(comport):
-	with serial.Serial(comport, baud, timeout=tm) as ser:
-		time.sleep(3) #apparently needs a delay for arduino to notice
+def set_manual(ser):
+	while True:
+		r = raw_input("a or b:")
 		ser.write(pin_on)
-		
-def set_low(comport):
-	with serial.Serial(comport, baud, timeout=tm) as ser:
-		time.sleep(3) #apparently needs a delay for arduino to notice
-		ser.write(pin_off)
 
-def toggle_servo(comport):
-	with serial.Serial(comport, baud, timeout=tm) as ser:
-		time.sleep(3) #apparently needs a delay for arduino to notice
-		ser.write(servo_on)
-		time.sleep(1) #delay to keep arduino in sync
+def set_high(ser):
+	# time.sleep(3) #apparently needs a delay for arduino to notice
+	ser.write(pin_on)
+		
+def set_low(ser):
+	# time.sleep(3) #apparently needs a delay for arduino to notice
+	ser.write(pin_off)
+
+def toggle_servo(ser):
+	# time.sleep(3) #apparently needs a delay for arduino to notice
+	ser.write(servo_on)
+	time.sleep(1) #delay to keep arduino in sync
 
 
 # reports <sample id, date, light, temperature, humidity>
-def read_from_arduino_sensors(comport, csv_path, sample_id):
-	with serial.Serial(comport, baud, timeout=tm) as ser:
-		time.sleep(3) #apparently needs a delay for arduino to notice
-		ser.write(read_sensors)
+def read_from_arduino_sensors(ser, csv_path, sample_id):
+	# time.sleep(3) #apparently needs a delay for arduino to notice
+	ser.write(read_sensors)
 
-		# blocks until it can read 4 bytes back from the arduino
-		lux = ser.read(4) #lux is reported as a uint32_t (4 bytes)
-		f_lux = struct.unpack('f', lux)[0]
-		temp = ser.read(4)
-		f_temp = struct.unpack('f', temp)[0]
-		hum = ser.read(4)
-		f_hum = struct.unpack('f', hum)[0]
-		# hum = 0
+	# blocks until it can read 4 bytes back from the arduino
+	lux = ser.read(4) #lux is reported as a uint32_t (4 bytes)
+	f_lux = struct.unpack('f', lux)[0]
+	temp = ser.read(4)
+	f_temp = struct.unpack('f', temp)[0]
+	hum = ser.read(4)
+	f_hum = struct.unpack('f', hum)[0]
+	with open(csv_path, 'a') as csvfile:
+		w = csv.writer(csvfile)
+		w.writerow([sample_id, datetime.datetime.now(), f_lux, f_temp, f_hum])
+
+def start_mypart_sample(ser):
+	# time.sleep(3) #apparently needs a delay for arduino to notice
+	ser.write(sample_mypart)
+
+def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
+	# time.sleep(3)
+	mypart_ser.write(send_mypart_data)
+	for count in range(0, num_myparts):			
+		d_id = gzll_ser.read(4)
+		device_id = struct.unpack('i', d_id)[0]
+		f1 = gzll_ser.read(4)
+		fu1 = struct.unpack('i', f1)[0]
+		f2 = gzll_ser.read(4)
+		fu2 = struct.unpack('i', f2)[0]
+		f3 = gzll_ser.read(4)
+		fu3 = struct.unpack('f', f3)[0]
+		f4 = gzll_ser.read(4)
+		fu4 = struct.unpack('f', f4)[0]
 		with open(csv_path, 'a') as csvfile:
 			w = csv.writer(csvfile)
-			w.writerow([sample_id, datetime.datetime.now(), f_lux, f_temp, f_hum])
-
-def start_mypart_sample(comport):
-	with serial.Serial(comport, baud, timeout=tm) as ser:
-		time.sleep(3) #apparently needs a delay for arduino to notice
-		ser.write(sample_mypart)
-
-def record_mypart_data(gzll_comport, mypart_comport, csv_path, sample_id):
-	with serial.Serial(gzll_comport, baud, timeout=tm) as gzll_ser:
-		with serial.Serial(mypart_comport, baud, timeout=tm) as mypart_ser:
-			time.sleep(3)
-			mypart_ser.write(send_mypart_data)
-			for count in range(0, num_myparts):			
-				d_id = gzll_ser.read(4)
-				device_id = struct.unpack('i', d_id)[0]
-				f1 = gzll_ser.read(4)
-				fu1 = struct.unpack('i', f1)[0]
-				f2 = gzll_ser.read(4)
-				fu2 = struct.unpack('i', f2)[0]
-				f3 = gzll_ser.read(4)
-				fu3 = struct.unpack('f', f3)[0]
-				f4 = gzll_ser.read(4)
-				fu4 = struct.unpack('f', f4)[0]
-				with open(csv_path, 'a') as csvfile:
-					w = csv.writer(csvfile)
-					w.writerow([sample_id, datetime.datetime.now(), device_id, fu1, fu2, fu3, fu4])
-
-
-
-
-# Testing:
-# read_from_arduino_sensors('/dev/cu.usbmodem1431', "lighttest.csv", 1)
-# toggle_servo('/dev/cu.usbmodem1431')
-# set_low('/dev/cu.usbmodem8045')
-# time.sleep(3)
-# set_low('/dev/cu.usbmodem1431')
-# 
-
-# internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
-# start_mypart_sample(internal_arduino_comport)
-# read_from_arduino_sensors(internal_arduino_comport, "test_internals.csv", 10)
-
-# gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
-# start_mypart_sample(internal_arduino_comport)
-
-# record_mypart_data(gzll_rfduino_comport, internal_arduino_comport, "aflkdjf.csv", 1)
-
-
+			w.writerow([sample_id, datetime.datetime.now(), device_id, fu1, fu2, fu3, fu4])

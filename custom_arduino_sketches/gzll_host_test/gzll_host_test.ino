@@ -27,9 +27,9 @@ void loop() {
 void RFduinoGZLL_onReceive(device_t device, int rssi, char *data, int len) {
     
     
-    if (device == DEVICE0){
+//    if (device == DEVICE0){
        memcpy(&packet, &data[0], len);
-    }
+//    }
 
     int d = (int) device;
 
@@ -38,7 +38,8 @@ void RFduinoGZLL_onReceive(device_t device, int rssi, char *data, int len) {
     Serial.write((byte*) &packet.large, 4);
     Serial.write((byte*) &packet.humidity, 4);
     Serial.write((byte*) &packet.temperature, 4);
-
+//
+//    Serial.println(d);
 //    Serial.println(packet.small);
 //    Serial.println(packet.large); 
 //    Serial.println(packet.humidity);

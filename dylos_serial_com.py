@@ -5,14 +5,12 @@ import datetime
 baud = 9600
 tm = 100
 
-def sync_timing(comport):
-	with serial.Serial(comport, baud, timeout=tm, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as ser:
-		line = ser.readline()
+def sync_timing(ser):
+	line = ser.readline()
 
-def read_data(comport, csvname, sample_id):
-	with serial.Serial(comport, baud, timeout=tm, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as ser:
-		line = ser.readline()
-		dylos_data = extract_dylos_counts(line)
+def read_data(ser, csvname, sample_id):
+	line = ser.readline()
+	dylos_data = extract_dylos_counts(line)
 	write_to_csv(sample_id, dylos_data[0], dylos_data[1], csvname)
 
 def extract_dylos_counts(line):
@@ -33,5 +31,3 @@ def write_to_csv(sample_id, small, large, csvname):
 		print small, large
 		w = csv.writer(csvfile)
 		w.writerow([sample_id, datetime.datetime.now(), small, large])
-
-# read_data()

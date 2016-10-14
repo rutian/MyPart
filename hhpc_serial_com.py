@@ -99,18 +99,10 @@ def construct_command(chs, data, data1=0, data2=0):
 	return fullcommand
 
 
-def send_command(command, chs, bytes_to_read, comport):
-	with serial.Serial(comport, baud, timeout=tm, stopbits=serial.STOPBITS_TWO, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as ser:
-		num = ser.write(command)
-		line = ser.read(bytes_to_read)
-		return line
-
-
-# USE THESE TO TEST HHPC COMMUNICATION
-# get_buffer_count()
-# start_count()
-# get_buffer_record('/dev/cu.KeySerial1')
-
+def send_command(command, chs, bytes_to_read, ser):
+	num = ser.write(command)
+	line = ser.read(bytes_to_read)
+	return line
 
 
 
