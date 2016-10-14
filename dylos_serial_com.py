@@ -2,9 +2,6 @@ import serial
 import csv
 import datetime
 
-baud = 9600
-tm = 100
-
 def sync_timing(ser):
 	line = ser.readline()
 
@@ -27,7 +24,6 @@ def extract_dylos_counts(line):
 # small, large, date/time
 def write_to_csv(sample_id, small, large, csvname):
 	with open(csvname, 'a') as csvfile:
-		print "WRITE DYLOS TO CSV"
-		print small, large
+		print "Dylos: ", small, large
 		w = csv.writer(csvfile)
 		w.writerow([sample_id, datetime.datetime.now(), small, large])

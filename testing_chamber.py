@@ -2,7 +2,6 @@ import hhpc_serial_com as hhpc
 import dylos_serial_com as dylos
 import arduino_serial_com as arduino
 import raw_analog_saleae as raw
-from Arduino import Arduino
 
 import time
 import datetime

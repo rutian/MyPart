@@ -1,3 +1,21 @@
+Dependencies:
+
+Python libraries:
+time
+datetime
+os
+serial
+csv
+struct
+crc_algorithms
+array
+
+
+
+
+
+
+
 
 
 USAGE:
@@ -6,8 +24,6 @@ USAGE:
 3. Proper wiring for HHPC cable:
 		_black red green white 
 		_ _ yellow _
-4. the dylos will record one read before the HHPC starts, for timing calibration
-		when doing data analysis, that reading should be thrown out
 5. the breathing time for the HHPC is set through the device -- 2.3L = 60seconds
 
 

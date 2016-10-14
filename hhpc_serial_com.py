@@ -5,11 +5,6 @@ from crc_algorithms import Crc
 import csv
 import datetime
 
-baud = 9600
-tm = 10
-prefix = 0x00
-
-
 # -----------------------------------------
 # HELPERS
 
@@ -21,7 +16,6 @@ def extract_2_channel(dba, i1):
 
 def write_to_csv(sample_id,d1, d2, d3, d4, d5, d6, d7, d8, csvname):
 	with open(csvname, 'a') as csvfile:
-		print "WRITE HHPC TO CSV"
 		w = csv.writer(csvfile)
 		w.writerow([sample_id, datetime.datetime.now(), d1, d2, d3, d4, d5, d6, d7, d8])
 
@@ -90,6 +84,8 @@ def calc_crc(data):
 def construct_command(chs, data, data1=0, data2=0):
 	# construct the partial command in bytes then send to crc
 	# combine with crc bytes to get full command
+	prefix = 0x00
+
 	if (data):
 		crc = calc_crc(bytearray([int(chs, 16), data1, data2]))
 		fullcommand = bytearray([prefix, int(chs, 16), data1, data2, crc[0], crc[1]])
