@@ -104,6 +104,22 @@ def automate_dylos_synchronized(cycles, repeat):
 	return 0;
 
 
+def constant_mix():
+
+
+def intermittent_mix_or_vacuum():
+
+
+def start_counts():
+
+
+def record_counts():
+
+
+def sleep():
+
+
+
 
 def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient):
 
@@ -204,7 +220,7 @@ def main():
 	cycles = 40
 	samples = 2
 	vacuum_time = 0 # seconds
-	mix_time = 40 # seconds
+	mix_time = 40 # seconds; if you want to mix continusly, this should be -1
 	sleep_minutes = 0 # minutes
 
 	sleep_interval = sleep_minutes * 60  # sleep interval must be in seconds                                                                                                                         
