@@ -68,10 +68,8 @@ def record_mypart_data(gzll_comport, mypart_comport, csv_path, sample_id):
 	with serial.Serial(gzll_comport, baud, timeout=tm) as gzll_ser:
 		with serial.Serial(mypart_comport, baud, timeout=tm) as mypart_ser:
 			time.sleep(3)
-			for count in range(0, num_myparts):
-				mypart_ser.write(send_mypart_data)
-				count_bytes = str(count).encode()
-				mypart_ser.write(count_bytes)
+			mypart_ser.write(send_mypart_data)
+			for count in range(0, num_myparts):			
 				d_id = gzll_ser.read(4)
 				device_id = struct.unpack('i', d_id)[0]
 				f1 = gzll_ser.read(4)

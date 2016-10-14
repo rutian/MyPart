@@ -11,8 +11,7 @@ Servo sv;
 
 int active_pin = 4;
 int servo_pin = 3;
-int mypart_pins[] = {6}; //must match number of myparts in arduino_serial_com.py
-int num_myparts = sizeof(mypart_pins) / sizeof(int);
+int mypart_pin = 6;
 int off_degree = 90;
 int on_degree = 40;
 
@@ -36,9 +35,7 @@ void setup() {
   Serial.begin(9600);
   //Set all the pins we need to output pins
   pinMode(active_pin, OUTPUT);
-  for (int i = 0; i < num_myparts; i++) {
-    pinMode(mypart_pins[i], OUTPUT);
-  }
+  pinMode(mypart_pin, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
   sv.attach(servo_pin, 771, 1798);
   if(!tsl.begin()) {
@@ -78,19 +75,14 @@ void loop() {
         break;
       }
       case SAMPLE_MYPART: 
-        for (int i = 0; i < num_myparts; i++) {
-           digitalWrite(mypart_pins[i], HIGH);
-        }
+        digitalWrite(mypart_pin, HIGH);
         delay(400);
-        for (int i = 0; i < num_myparts; i++) {
-           digitalWrite(mypart_pins[i], LOW);
-        }
+        digitalWrite(mypart_pin, LOW);
         break;
       case SEND_MYPART:
-        int mp = Serial.read();
-        digitalWrite(mypart_pins[mp], HIGH);
+        digitalWrite(mypart_pin, HIGH);
         delay(1000);
-        digitalWrite(mypart_pins[mp], LOW);
+        digitalWrite(mypart_pin, LOW);
         break;
     }
   }
