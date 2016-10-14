@@ -28,7 +28,6 @@ def set_high(comport):
 		time.sleep(3) #apparently needs a delay for arduino to notice
 		ser.write(pin_on)
 		
-
 def set_low(comport):
 	with serial.Serial(comport, baud, timeout=tm) as ser:
 		time.sleep(3) #apparently needs a delay for arduino to notice
@@ -85,13 +84,15 @@ def record_mypart_data(gzll_comport, mypart_comport, csv_path, sample_id):
 					w.writerow([sample_id, datetime.datetime.now(), device_id, fu1, fu2, fu3, fu4])
 
 
+
+
 # Testing:
 # read_from_arduino_sensors('/dev/cu.usbmodem1431', "lighttest.csv", 1)
 # toggle_servo('/dev/cu.usbmodem1431')
-# set_high('/dev/cu.usbmodem1431')
+# set_low('/dev/cu.usbmodem8045')
 # time.sleep(3)
 # set_low('/dev/cu.usbmodem1431')
-
+# 
 
 # internal_arduino_comport = '/dev/cu.usbmodem1A1231' #fan and dylos
 # start_mypart_sample(internal_arduino_comport)

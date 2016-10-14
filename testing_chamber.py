@@ -24,9 +24,13 @@ def record_ambient_readings(sample_id, csv_path, comport):
 
 def constant_mix_on(comport):
 	arduino.set_high(comport)
+	# need to delay for arduino to work
+	time.sleep(1)
 
 def constant_mix_off(comport):
 	arduino.set_low(comport)
+	# need to delay for arduino to work
+	time.sleep(1)
 
 def intermittent_mix_or_vacuum(vacuum_time, mix_time, internal_arduino_comport, external_arduino_comport):
 	if (vacuum_time):
@@ -61,3 +65,5 @@ def sleep(sleep_interval, comport):
 	arduino.toggle_servo(comport)  # turn dylos off
 	time.sleep(sleep_interval)						# wait
 	arduino.toggle_servo(comport)  # turn dylos on
+
+

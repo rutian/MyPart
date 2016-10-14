@@ -12,7 +12,7 @@ import os
 
 dylos_comport = '/dev/cu.usbserial'
 hhpc_comport = '/dev/cu.KeySerial1'
-internal_arduino_comport = '/dev/cu.usbmodem8044' #fan, dylos, ambient chamber readings, 
+internal_arduino_comport = '/dev/cu.usbmodem8045' #fan, dylos, ambient chamber readings, 
 external_arduino_comport = '/dev/cu.usbmodem1431' #vacuum
 gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
 
@@ -27,10 +27,10 @@ parent_folder_path = '/Users/Paulosophers/Desktop/mypart/automated_tests_data/'
 # testing parameters
 # ----------------------
 
-cycles = 1
+cycles = 40
 samples = 2
 vacuum_time = 0 # seconds to run vacuum
-mix_time = 5 # seconds to run fan; if you want to mix continuously during measurement, this should be -1
+mix_time = -1 # seconds to run fan; if you want to mix continuously during measurement, this should be -1
 sleep_minutes = 0 # how many minutes you want the chamber off for in between cycles
 
 
@@ -38,7 +38,7 @@ sleep_minutes = 0 # how many minutes you want the chamber off for in between cyc
 # collect and record samples from sensors in the chamber
 # keep measurements synchronized on dylos 
 # 
-def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient):
+def run_test(cycles, repeat, vacuum_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient):
 
 	print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
 	print('-------------------------------')
@@ -52,9 +52,8 @@ def run_test(cycles, repeat, vacuum_time, mix_time, sleep_interval, csv_path_dyl
  	for i in range(cycles):
 
  		if (mix_time == -1):
- 			print('turning on fans')
- 			tc.constant_mix_on(internal_arduino_comport)
-
+			print('turning on fans')
+			tc.constant_mix_on(internal_arduino_comport)
  		# only do these if the time is > 0
  		if ((vacuum_time or mix_time) and mix_time is not -1): # time to mix, must happen in less than 60sec 
  			print('at cycle {0} of {1}: vacuum and mix'.format(i, cycles))
@@ -113,8 +112,9 @@ def main():
 
 	sleep_interval = sleep_minutes * 60  # sleep interval must be in seconds                                                                                                                         
 
-	run_test(cycles, samples, vacuum_time, mix_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient)
+	run_test(cycles, samples, vacuum_time, sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, raw_sample_folder_path, csv_path_ambient)
 
 	print('\nTest complete!')
 
 main()
+
