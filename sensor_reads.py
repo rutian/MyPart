@@ -36,15 +36,12 @@ tm = 10000
 # testing parameters
 # ----------------------
 
-cycles = 2 
+cycles = 40
 samples = 2
 vacuum_time = 0 # seconds to run vacuum in between cycles
 mix_time = -1 # seconds to run fan between cycles; if you want to mix continuously during measurement, this should be -1
 sleep_minutes = 0 # how many minutes you want the chamber off for in between cycles
-num_myparts = 1 # how many myparts you are testing at once
-
-
-
+num_myparts = 2 # how many myparts you are testing at once
 
 
 
@@ -54,6 +51,7 @@ num_myparts = 1 # how many myparts you are testing at once
 # 
 def run_test(sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, csv_path_ambient, raw_sample_folder_path):
 	with serial.Serial(internal_arduino_comport, baud, timeout=tm) as internal_ser:
+		# comment this in if you plug in the external arduino
 		# with serial.Serial(external_arduino_comport, baud, timeout=tm) as external_ser:
 			with serial.Serial(gzll_rfduino_comport, baud, timeout=tm) as gzll_ser:
 				with serial.Serial(hhpc_comport, baud, timeout=tm, stopbits=serial.STOPBITS_TWO, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as hhpc_ser:

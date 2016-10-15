@@ -44,6 +44,9 @@ def read_from_arduino_sensors(ser, csv_path, sample_id):
 		w.writerow([sample_id, datetime.datetime.now(), f_lux, f_temp, f_hum])
 
 def start_mypart_sample(ser):
+	# delay because it takes time to send button presses through arduino
+	# and you don't want to start commanding again before the last reporting button press finishes
+	time.sleep(3)
 	ser.write(sample_mypart)
 
 def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
