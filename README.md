@@ -12,7 +12,9 @@ There are two main sets of files: sketches and libraries for Arduino, and python
 #### hhpc_serial_com.py
 #### dylos_serial_com.py
 
-These two files offer interfaces into the Dylos and MetOne air sensors.  Using serial, they implement basic commands for retrieving data from both, recording data in csvs, and for initiating sampling for the MetOne. The Metone has a multitude of possible commands; we have implemented only those necessary for automated testing, however the rest can be added by inspecting the data sheet and following the function pattern established in the code.
+These two files offer interfaces into the Dylos and MetOne air sensors.  Using serial, they implement basic commands for retrieving data from both, recording data in csvs, and for initiating sampling for the MetOne. The MetOne has a multitude of possible commands; we have implemented only those necessary for automated testing, however the rest can be added by inspecting the data sheet and following the function pattern established in the code.
+
+These files can be used outside of the automated testing flow if you just want a programmatic way to talk to the MetOne or Dylos sensors over serial. 
 
 #### crc_algorithms.py 
 
