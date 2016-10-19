@@ -47,20 +47,20 @@ def intermittent_mix_or_vacuum(vacuum_time, mix_time, internal_ser, external_ser
 # start sampling for any sensor that requires an explicit command (hhpc, mypart)
 # include the saleae if you want raw readings from the mypart -- note that the saleae is blocking
 # the dylos is not here since it samples continuously
-def start_counting(hhpc_ser, internal_ser, raw_sample_folder_path):
-	hhpc.start_count(hhpc_ser) # start the count (non-blocking)
+def start_counting(hhpc_comport, baud, tm, internal_ser, raw_sample_folder_path):
+	hhpc.start_count(hhpc_comport, baud, tm) # start the count (non-blocking)
 	print('\t hhpc sampling...')
 	# raw.sample_and_write_analog([0,1,2], 45, raw_sample_folder_path, sample_id ) # raw analog sampling (THIS IS BLOCKING)
 	arduino.start_mypart_sample(internal_ser)
 	print('\t myparts sampling...')
 
 # send request for data from each sensor and record results to csvs
-def record_counts(dylos_ser, csv_path_dylos, hhpc_ser, csv_path_metone, csv_path_ambient, gzll_ser, internal_ser, num_myparts, csv_path_mypart, sample_id):
+def record_counts(dylos_ser, csv_path_dylos, hhpc_comport, baud, tm, csv_path_metone, csv_path_ambient, gzll_ser, internal_ser, num_myparts, csv_path_mypart, sample_id):
 	print('\t waiting for dylos read...')
 	# read the dylos... the data taken here should be an average of the last minute (synchronized with our other reads) 
 	dylos.read_data(dylos_ser, csv_path_dylos, sample_id)
 	print('\t dylos recorded')
-	hhpc.get_buffer_record(hhpc_ser, csv_path_metone, sample_id) # not blocking 
+	hhpc.get_buffer_record(hhpc_comport, baud, tm, csv_path_metone, sample_id) # not blocking 
 	print('\t hhpc recorded')
 	record_ambient_readings(sample_id, csv_path_ambient, internal_ser)
 	print('\t ambient data recorded')

@@ -22,21 +22,21 @@ def write_to_csv(sample_id,d1, d2, d3, d4, d5, d6, d7, d8, csvname):
 # ------------------------------------------
 # COMMANDS
 
-def start_count(comport):
+def start_count(hhpc_comport, baud, tm):
 	command = construct_command("01", False)
-	data = send_command(command, "01", 1, comport)
+	data = send_command(command, "01", 1, hhpc_comport, baud, tm)
 
-def stop_count(comport):
+def stop_count(hhpc_comport, baud, tm):
     command = construct_command("02", False)
-    data = send_command(command, "02", 1, comport)
+    data = send_command(command, "02", 1, hhpc_comport, baud, tm)
 
-def get_time(comport):
+def get_time(hhpc_comport, baud, tm):
     command = construct_command("08", False)
-    data = send_command(command, "08", 5, comport)
+    data = send_command(command, "08", 5, hhpc_comport, baud, tm)
 
-def get_buffer_count(comport):
+def get_buffer_count(hhpc_comport, baud, tm):
 	command = construct_command("0F", False)
-	data = send_command(command, "0F", 7, comport)
+	data = send_command(command, "0F", 7, hhpc_comport, baud, tm)
 	bdata = bytearray(data)
 
 	# subtract 1 to get last record
@@ -47,10 +47,10 @@ def get_buffer_count(comport):
 	return [bdata[2], bdata[3]]
 
 # use the current buffercount to get the last entry
-def get_buffer_record(comport, csvname, sample_id):
+def get_buffer_record(hhpc_comport, baud, tm, csvname, sample_id):
 	recnum = get_buffer_count(comport)
 	command = construct_command("09", True, recnum[0], recnum[1])
-	data = send_command(command, "09", 51, comport)
+	data = send_command(command, "09", 51, hhpc_comport, baud, tm)
 	dba = bytearray(data)
 
 	channel1 = extract_4_channel(dba, 1)
@@ -95,10 +95,12 @@ def construct_command(chs, data, data1=0, data2=0):
 	return fullcommand
 
 
-def send_command(command, chs, bytes_to_read, ser):
-	num = ser.write(command)
-	line = ser.read(bytes_to_read)
-	return line
+def send_command(command, chs, bytes_to_read, hhpc_comport, baud, tm):
+	with serial.Serial(hhpc_comport, baud, timeout=tm, stopbits=serial.STOPBITS_TWO, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as hhpc_ser:
+		num = hhpc_ser.write(command)
+		line = hhpc_ser.read(bytes_to_read)
+		return line
+
 
 
 
