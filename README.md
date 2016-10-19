@@ -16,7 +16,7 @@ These two files offer interfaces into the Dylos and MetOne air sensors.  Using s
 
 #### crc_algorithms.py 
 
-This is a part of pycrc [[link]], used in hhpc_serial_com.py to create the crc necessary for communication with the MetOne.  It is unchanged from the original, and included here for convenience.
+This is a part of [pycrc](https://github.com/tpircher/pycrc), used in hhpc_serial_com.py to create the crc necessary for communication with the MetOne.  It is unchanged from the original, and included here for convenience.
 
 #### arduino_serial_com.py
 
