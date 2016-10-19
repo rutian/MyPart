@@ -52,7 +52,7 @@ def run_test(sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, c
 	# open all serial ports once at the beginning of the test, except for HHPC
 	# the HHPC requires the serial port to be reopened before each command, 
 	# so we will pass the comport, baud, and tm instead of a serial connection
-	
+
 	with serial.Serial(internal_arduino_comport, baud, timeout=tm) as internal_ser:
 		# comment this in if you plug in the external arduino
 		# with serial.Serial(external_arduino_comport, baud, timeout=tm) as external_ser:
@@ -67,7 +67,7 @@ def run_test(sleep_interval, csv_path_dylos, csv_path_metone, csv_path_mypart, c
 					# synchronize to the dylos
 					dylos.sync_timing(dylos_ser)
 
-					# loop through the number of cycles we want
+					# loop through the number of cycles
 				 	for i in range(cycles):
 
 				 		if (mix_time == -1):

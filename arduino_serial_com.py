@@ -55,7 +55,7 @@ def start_mypart_sample(ser):
 def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
 	mypart_ser.write(send_mypart_data)
 	device_data = [None] * num_myparts
-	for count in range(0, num_myparts):			
+	for count in range(0, num_myparts):
 		d_id = gzll_ser.read(4)
 		device_id = struct.unpack('i', d_id)[0]
 		f1 = gzll_ser.read(4)
