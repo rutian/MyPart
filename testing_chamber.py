@@ -55,16 +55,16 @@ def start_counting(hhpc_comport, baud, tm, internal_ser, raw_sample_folder_path)
 	print('\t myparts sampling...')
 
 # send request for data from each sensor and record results to csvs
-def record_counts(dylos_ser, csv_path_dylos, hhpc_comport, baud, tm, csv_path_metone, csv_path_ambient, gzll_ser, internal_ser, num_myparts, csv_path_mypart, sample_id):
+def record_counts(dylos_comport, csv_path_dylos, hhpc_comport, baud, tm, csv_path_metone, csv_path_ambient, gzll_ser, internal_ser, num_myparts, csv_path_mypart, sample_id):
 	print('\t waiting for dylos read...')
 	# read the dylos... the data taken here should be an average of the last minute (synchronized with our other reads) 
-	dylos.read_data(dylos_ser, csv_path_dylos, sample_id)
+	dylos.read_data(dylos_comport, baud, tm, csv_path_dylos, sample_id)
 	print('\t dylos recorded')
-	hhpc.get_buffer_record(hhpc_comport, baud, tm, csv_path_metone, sample_id) # not blocking 
+	# hhpc.get_buffer_record(hhpc_comport, baud, tm, csv_path_metone, sample_id) # not blocking 
 	print('\t hhpc recorded')
 	record_ambient_readings(sample_id, csv_path_ambient, internal_ser)
 	print('\t ambient data recorded')
-	arduino.record_mypart_data(gzll_ser, internal_ser, num_myparts, csv_path_mypart, sample_id)
+	# arduino.record_mypart_data(gzll_ser, internal_ser, num_myparts, csv_path_mypart, sample_id)
 	print('\t mypart recorded')
 
 # turn off fans and dylos in between cycles

@@ -2,13 +2,20 @@ import serial
 import csv
 import datetime
 
-def sync_timing(ser):
-	line = ser.readline()
+dylos_comport = '/dev/cu.usbserial'
+baud = 9600
+tm = 100
 
-def read_data(ser, csvname, sample_id):
-	line = ser.readline()
-	dylos_data = extract_dylos_counts(line)
-	write_to_csv(sample_id, dylos_data[0], dylos_data[1], csvname)
+
+def sync_timing(dylos_comport, baud, tm):
+	with serial.Serial(dylos_comport, baud, timeout=tm, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as ser:
+		line = ser.readline()
+
+def read_data(dylos_comport, baud, tm, csvname, sample_id):
+	with serial.Serial(dylos_comport, baud, timeout=tm, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE) as ser:
+		line = ser.readline()
+		dylos_data = extract_dylos_counts(line)
+		write_to_csv(sample_id, dylos_data[0], dylos_data[1], csvname)
 
 def extract_dylos_counts(line):
 	if not line:
