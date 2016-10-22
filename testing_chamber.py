@@ -65,6 +65,7 @@ def record_counts(serial_data, paths, num_myparts, sample_id, sensor_on):
 		print('\t waiting for dylos read...')
 		# read the dylos... the data taken here should be an average of the last minute (synchronized with our other reads) 
 		dylos.read_data(serial_data["dylos_comport"], serial_data["baud"], serial_data["tm"], paths["dylos"], sample_id)
+		print(datetime.datetime.now())
 		print('\t dylos recorded')
 	if sensor_on["hhpc"]:
 		hhpc.get_buffer_record(serial_data["hhpc_comport"], serial_data["baud"], serial_data["tm"], paths["hhpc"], sample_id) # not blocking 
@@ -74,8 +75,9 @@ def record_counts(serial_data, paths, num_myparts, sample_id, sensor_on):
 	print('\t ambient data recorded')
 
 	if sensor_on["mypart"]:
-		arduino.record_mypart_data(serial_data["gzll_ser"], serial_data["internal_ser"], num_myparts, paths["csv_path_mypart"], sample_id)
+		arduino.record_mypart_data(serial_data["gzll_ser"], serial_data["internal_ser"], num_myparts, paths["mypart"], sample_id)
 		print('\t mypart recorded')
+		time.sleep(10)
 
 # turn off fans and dylos in between cycles
 # and block execution for given sleep interval

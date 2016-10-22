@@ -54,22 +54,23 @@ def start_mypart_sample(ser):
 # sample_id, datetime, device_1_small, device_1 large, device_1 humidity, device_1 temp, device_2 ...
 def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
 	mypart_ser.write(send_mypart_data)
-	device_data = [None] * num_myparts
+	device_data = ["nnnn"] * num_myparts
 	lost = False
-	for count in range(0, num_myparts):
-		tp = try_to_read_mypart(gzll_ser)	
-		if tp:
-			device_data[tp[0]] = tp[1]
-		else:
-			lost = True
-
-	# try it one more time
-	if lost:
-		print "oh no you lost some data...trying again..."
-		for count in range(0, num_myparts):
+	retries = 2
+	while (retries > 0):
+		for count in range(num_myparts):
 			tp = try_to_read_mypart(gzll_ser)	
 			if tp:
 				device_data[tp[0]] = tp[1]
+			else:
+				lost = True
+		if lost:
+			retries = retries - 1
+			lost = False
+			if retries > 0:
+				print "oh no gzll lost some data...trying again..."
+		else:
+			break
 
 	with open(csv_path, 'a') as csvfile:
 		w = csv.writer(csvfile)
@@ -79,16 +80,16 @@ def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
 		w.writerow(row)
 
 
-def try_to_read_mypart():
+def try_to_read_mypart(gzll_ser):
 	
-	data = bytesarray(gzll_ser.read(20))
+	data = gzll_ser.read(20)
 
 	if (data):
-		device_id = struct.unpack_from('i', data[0])[0]
-		fu1 = struct.unpack_from('i', data[4])[0]
-		fu2 = struct.unpack_from('i', data[8])[0]
-		fu3 = struct.unpack_from('f', data[12])[0]
-		fu4 = struct.unpack_from('f', data[16])[0]
+		device_id = struct.unpack('i', data[0:4])[0]
+		fu1 = struct.unpack('i', data[4:8])[0]
+		fu2 = struct.unpack('i', data[8:12])[0]
+		fu3 = struct.unpack('f', data[12:16])[0]
+		fu4 = struct.unpack('f', data[16:20])[0]
 
 		arr = [fu1, fu2, fu3, fu4]
 

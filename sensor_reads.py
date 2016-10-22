@@ -15,12 +15,12 @@ import serial
 serial_data = {
 	"dylos_comport": '/dev/cu.usbserial',
 	"hhpc_comport": '/dev/cu.KeySerial1',
-	"internal_arduino_comport": '/dev/cu.usbmodem8050', #fan, dylos servo, ambient chamber readings, mypart signalling
+	"internal_arduino_comport": '/dev/cu.usbmodem8056', #fan, dylos servo, ambient chamber readings, mypart signalling
 	"external_arduino_comport": '/dev/cu.usbmodem1431', #vacuum
 	"gzll_rfduino_comport": '/dev/cu.usbserial-DN00CSKF', #rfduino for hosting gzll communication to myparts
 	"baud": 9600,
 	"tm": 100,
-	"mypart_tm": 1
+	"mypart_tm": 5
 }
 
 
@@ -29,7 +29,7 @@ serial_data = {
 # ---------------------
 
 csv_name = 'air_sensor_data'
-parent_folder_path = ''
+parent_folder_path = '/Users/Paulosophers/Desktop/mypart/automated_tests_data/'
 
 
 
@@ -42,13 +42,15 @@ samples = 2
 vacuum_time = 0 # seconds to run vacuum in between cycles
 mix_time = 0 # seconds to run fan between cycles; if you want to mix continuously during measurement, this should be -1
 sleep_minutes = 0 # how many minutes you want the chamber off for in between cycles
-num_myparts = 0 # how many myparts you are testing at once
+num_myparts = 3 # how many myparts you are testing at once
 
 
+# set these to true if you are including that sensor in the current test
+# set to false if you are excluding that sensor, or do not have it plugged in
 sensor_on = {
-	"dylos": False,
+	"dylos": True,
 	"hhpc": False,
-	"mypart": False,
+	"mypart": True,
 	"saleae": False
 }
 
