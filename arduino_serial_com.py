@@ -46,7 +46,7 @@ def read_from_arduino_sensors(ser, csv_path, sample_id):
 def start_mypart_sample(ser):
 	# delay because it takes time to send button presses through arduino
 	# and you don't want to start commanding again before the last reporting button press finishes
-	time.sleep(3)
+	time.sleep(2)
 	ser.write(sample_mypart)
 
 
