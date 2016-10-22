@@ -47,17 +47,17 @@ def intermittent_mix_or_vacuum(vacuum_time, mix_time, internal_ser, external_ser
 # start sampling for any sensor that requires an explicit command (hhpc, mypart)
 # include the saleae if you want raw readings from the mypart -- note that the saleae is blocking
 # the dylos is not here since it samples continuously
-def start_counting(serial_data, paths, sensor_on):
+def start_counting(serial_data, paths, sensor_on, sample_id):
 	if sensor_on["hhpc"]:
 		hhpc.start_count(serial_data["hhpc_comport"], serial_data["baud"], serial_data["tm"]) # start the count (non-blocking)
 		print('\t hhpc sampling...')
-	if sensor_on["saleae"]:
-		print('\t saleae sampling...')
-		raw.sample_and_write_analog([0,1,2], 45, paths["raw"], sample_id ) # raw analog sampling (THIS IS BLOCKING)
-		print('\t saleae finished')
 	if sensor_on["mypart"]:
 		arduino.start_mypart_sample(serial_data["internal_ser"])
 		print('\t myparts sampling...')
+	if sensor_on["saleae"]:
+		print('\t saleae sampling...')
+		raw.sample_and_write_analog([0,1,2], 35, paths["raw"], sample_id) # raw analog sampling (THIS IS BLOCKING)
+		print('\t saleae finished')
 
 # send request for data from each sensor and record results to csvs
 def record_counts(serial_data, paths, num_myparts, sample_id, sensor_on):

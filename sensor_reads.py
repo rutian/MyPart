@@ -15,7 +15,7 @@ import serial
 serial_data = {
 	"dylos_comport": '/dev/cu.usbserial',
 	"hhpc_comport": '/dev/cu.KeySerial1',
-	"internal_arduino_comport": '/dev/cu.usbmodem8056', #fan, dylos servo, ambient chamber readings, mypart signalling
+	"internal_arduino_comport": '/dev/cu.usbmodem1A1221', #fan, dylos servo, ambient chamber readings, mypart signalling
 	"external_arduino_comport": '/dev/cu.usbmodem1431', #vacuum
 	"gzll_rfduino_comport": '/dev/cu.usbserial-DN00CSKF', #rfduino for hosting gzll communication to myparts
 	"baud": 9600,
@@ -47,11 +47,12 @@ num_myparts = 3 # how many myparts you are testing at once
 
 # set these to true if you are including that sensor in the current test
 # set to false if you are excluding that sensor, or do not have it plugged in
+# note: without the dylos, all timing will be incorrect
 sensor_on = {
 	"dylos": True,
-	"hhpc": False,
+	"hhpc": True,
 	"mypart": True,
-	"saleae": False
+	"saleae": True
 }
 
 # 
@@ -107,7 +108,7 @@ def run_test(sleep_interval, paths, raw_sample_folder_path):
 
 						# time to sample, must happen in less than 60s
 						print('at cycle {0}-{1} of {2}: sampling data'.format(i, j, cycles))
-						tc.start_counting(serial_data, paths, sensor_on)
+						tc.start_counting(serial_data, paths, sensor_on, sample_id)
 
 						# this function blocks on dylos, keeps in sync
 						tc.record_counts(serial_data, paths, num_myparts, sample_id, sensor_on)
