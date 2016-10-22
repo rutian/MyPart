@@ -19,7 +19,8 @@ serial_data = {
 	"external_arduino_comport": '/dev/cu.usbmodem1431', #vacuum
 	"gzll_rfduino_comport": '/dev/cu.usbserial-DN00CSKF', #rfduino for hosting gzll communication to myparts
 	"baud": 9600,
-	"tm": 10000
+	"tm": 100,
+	"mypart_tm": 1
 }
 
 
@@ -65,7 +66,7 @@ def run_test(sleep_interval, paths, raw_sample_folder_path):
 	with serial.Serial(serial_data["internal_arduino_comport"], serial_data["baud"], timeout=serial_data["tm"]) as internal_ser:
 		# comment this in if you plug in the external arduino
 		# with serial.Serial(external_arduino_comport, baud, timeout=tm) as external_ser:
-			with serial.Serial(serial_data["gzll_rfduino_comport"], serial_data["baud"], timeout=serial_data["tm"]) as gzll_ser:
+			with serial.Serial(serial_data["gzll_rfduino_comport"], serial_data["baud"], timeout=serial_data["mypart_tm"]) as gzll_ser:
 
 				serial_data["internal_ser"] = internal_ser
 				serial_data["gzll_ser"] = gzll_ser
