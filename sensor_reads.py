@@ -14,7 +14,7 @@ import serial
 
 dylos_comport = '/dev/cu.usbserial'
 hhpc_comport = '/dev/cu.KeySerial1'
-internal_arduino_comport = '/dev/cu.usbmodem8050' #fan, dylos servo, ambient chamber readings, mypart signalling
+internal_arduino_comport = '/dev/cu.usbmodem8056' #fan, dylos servo, ambient chamber readings, mypart signalling
 external_arduino_comport = '/dev/cu.usbmodem1431' #vacuum
 gzll_rfduino_comport = '/dev/cu.usbserial-DN00CSKF' #rfduino for hosting gzll communication to myparts
 
