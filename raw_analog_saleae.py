@@ -36,7 +36,7 @@ def sample_and_write_analog(channels, duration, save_folder, sample_id):
 	# os.mkdir(folder) 
 	path = os.path.abspath(os.path.join(save_folder, str(sample_id)))
 
-	print path
+	# print path
 	# capture and save, keep original and also make a matlab file
 	s.capture_to_file(path)
 	#s.export_data  # save also to matlab

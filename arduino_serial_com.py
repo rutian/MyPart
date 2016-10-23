@@ -56,7 +56,7 @@ def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
 	mypart_ser.write(send_mypart_data)
 	device_data = ["nnnn"] * num_myparts
 	lost = False
-	retries = 2
+	retries = 1
 	while (retries > 0):
 		for count in range(num_myparts):
 			tp = try_to_read_mypart(gzll_ser)	

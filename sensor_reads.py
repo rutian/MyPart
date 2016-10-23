@@ -32,7 +32,6 @@ csv_name = 'air_sensor_data'
 parent_folder_path = '/Users/Paulosophers/Desktop/mypart/automated_tests_data/'
 
 
-
 # ----------------------
 # testing parameters
 # ----------------------
@@ -40,9 +39,9 @@ parent_folder_path = '/Users/Paulosophers/Desktop/mypart/automated_tests_data/'
 cycles = 60
 samples = 2
 vacuum_time = 0 # seconds to run vacuum in between cycles
-mix_time = 0 # seconds to run fan between cycles; if you want to mix continuously during measurement, this should be -1
+mix_time = -1 # seconds to run fan between cycles; if you want to mix continuously during measurement, this should be -1
 sleep_minutes = 0 # how many minutes you want the chamber off for in between cycles
-num_myparts = 3 # how many myparts you are testing at once
+num_myparts = 0 # how many myparts you are testing at once
 
 
 # set these to true if you are including that sensor in the current test
@@ -51,8 +50,8 @@ num_myparts = 3 # how many myparts you are testing at once
 sensor_on = {
 	"dylos": True,
 	"hhpc": True,
-	"mypart": True,
-	"saleae": True
+	"mypart": False,
+	"saleae": False
 }
 
 # 
