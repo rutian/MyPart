@@ -48,7 +48,7 @@ def get_buffer_count(hhpc_comport, baud, tm):
 
 # use the current buffercount to get the last entry
 def get_buffer_record(hhpc_comport, baud, tm, csvname, sample_id):
-	recnum = get_buffer_count(comport)
+	recnum = get_buffer_count(hhpc_comport, baud, tm)
 	command = construct_command("09", True, recnum[0], recnum[1])
 	data = send_command(command, "09", 51, hhpc_comport, baud, tm)
 	dba = bytearray(data)

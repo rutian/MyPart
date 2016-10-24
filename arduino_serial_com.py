@@ -50,7 +50,7 @@ def read_from_arduino_sensors(ser, csv_path, sample_id):
 def start_mypart_sample(ser):
 	# delay because it takes time to send button presses through arduino
 	# and you don't want to start commanding again before the last reporting button press finishes
-	time.sleep(3)
+	time.sleep(2)
 	ser.write(sample_mypart)
 
 
@@ -58,22 +58,44 @@ def start_mypart_sample(ser):
 # sample_id, datetime, device_1_small, device_1 large, device_1 humidity, device_1 temp, device_2 ...
 def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
 	mypart_ser.write(send_mypart_data)
-	device_data = [None] * num_myparts
-	for count in range(0, num_myparts):
-		d_id = gzll_ser.read(4)
-		device_id = struct.unpack('i', d_id)[0]
-		f1 = gzll_ser.read(4)
-		fu1 = struct.unpack('i', f1)[0]
-		f2 = gzll_ser.read(4)
-		fu2 = struct.unpack('i', f2)[0]
-		f3 = gzll_ser.read(4)
-		fu3 = struct.unpack('f', f3)[0]
-		f4 = gzll_ser.read(4)
-		fu4 = struct.unpack('f', f4)[0]
-		device_data[device_id] = [fu1, fu2, fu3, fu4]
+	device_data = ["nnnn"] * num_myparts
+	lost = False
+	retries = 1
+	# Be careful about upping retries; if it takes too long trying
+	# to get the data, overall timing will get thrown off
+	while (retries > 0):
+		for count in range(num_myparts):
+			tp = try_to_read_mypart(gzll_ser)	
+			if tp:
+				device_data[tp[0]] = tp[1]
+			else:
+				lost = True
+		if lost:
+			retries = retries - 1
+			lost = False
+			print "oh no gzll lost some data...trying again..."
+		else:
+			break
+
 	with open(csv_path, 'a') as csvfile:
 		w = csv.writer(csvfile)
 		row = [sample_id, datetime.datetime.now()]
 		for d in range(0, num_myparts):
 			row.extend(device_data[d])
 		w.writerow(row)
+
+
+def try_to_read_mypart(gzll_ser):
+	
+	data = gzll_ser.read(20)
+
+	if (data):
+		device_id = struct.unpack('i', data[0:4])[0]
+		fu1 = struct.unpack('i', data[4:8])[0]
+		fu2 = struct.unpack('i', data[8:12])[0]
+		fu3 = struct.unpack('f', data[12:16])[0]
+		fu4 = struct.unpack('f', data[16:20])[0]
+
+		arr = [fu1, fu2, fu3, fu4]
+
+		return (device_id, arr)
