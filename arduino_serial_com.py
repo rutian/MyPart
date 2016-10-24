@@ -33,16 +33,12 @@ def read_from_arduino_sensors(ser, csv_path, sample_id):
 	ser.write(read_sensors)
 
 	# blocks until it can read 4 bytes back from the arduino
-	print "getting lux"
 	lux = ser.read(4) #lux is reported as a uint32_t (4 bytes)
 	f_lux = struct.unpack('f', lux)[0]
-	print "getting temp"
 	temp = ser.read(4)
 	f_temp = struct.unpack('f', temp)[0]
-	print "getting hum"
 	hum = ser.read(4)
 	f_hum = struct.unpack('f', hum)[0]
-	print "writing"
 	with open(csv_path, 'a') as csvfile:
 		w = csv.writer(csvfile)
 		w.writerow([sample_id, datetime.datetime.now(), f_lux, f_temp, f_hum])

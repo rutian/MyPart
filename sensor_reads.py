@@ -20,7 +20,7 @@ serial_data = {
 	"gzll_rfduino_comport": '/dev/cu.usbserial-DN00CSKF', #rfduino for hosting gzll communication to myparts
 	"baud": 9600,
 	"tm": 100,
-	"mypart_tm": 3 #be careful about how long you make this; it can throw off overall timing if too long
+	"mypart_tm": 5 #be careful about how long you make this; it can throw off overall timing if too long
 }
 
 
