@@ -36,12 +36,14 @@ parent_folder_path = '/Users/Paulosophers/Desktop/mypart/automated_tests_data/'
 # testing parameters
 # ----------------------
 
-cycles = 60
-samples = 2
+cycles = 1
+samples = 1
 vacuum_time = 0 # seconds to run vacuum in between cycles
 mix_time = -1 # seconds to run fan between cycles; if you want to mix continuously during measurement, this should be -1
 sleep_minutes = 0 # how many minutes you want the chamber off for in between cycles
 num_myparts = 3 # how many myparts you are testing at once
+
+manual_test = True # if you want to cue tests from the terminal, set this to true
 
 
 # set these to true if you are including that sensor in the current test
@@ -156,7 +158,18 @@ def main():
 
 	sleep_interval = sleep_minutes * 60  # sleep interval must be in seconds                                                                                                                         
 
-	run_test(sleep_interval, paths, raw_sample_folder_path)
+	if manual_test:
+		while True:
+			go = raw_input('enter t to test and q to quit: ')
+			if go is 't':
+				run_test(sleep_interval, paths, raw_sample_folder_path)
+			elif go is 'q':
+				break
+			else: 
+				print('wrong input')				
+
+	else:
+		run_test(sleep_interval, paths, raw_sample_folder_path)
 
 	print('\nTest complete!')
 
