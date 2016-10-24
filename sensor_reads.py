@@ -36,14 +36,14 @@ parent_folder_path = '/Users/Paulosophers/Desktop/mypart/automated_tests_data/'
 # testing parameters
 # ----------------------
 
-cycles = 1
-samples = 1
+cycles = 60
+samples = 2
 vacuum_time = 0 # seconds to run vacuum in between cycles
 mix_time = -1 # seconds to run fan between cycles; if you want to mix continuously during measurement, this should be -1
 sleep_minutes = 0 # how many minutes you want the chamber off for in between cycles
 num_myparts = 3 # how many myparts you are testing at once
 
-manual_test = True # if you want to cue tests from the terminal, set this to true
+manual_test = False # if you want to cue tests from the terminal, set this to true
 
 
 # set these to true if you are including that sensor in the current test
@@ -60,7 +60,7 @@ sensor_on = {
 # collect and record samples from sensors in the chamber
 # keep measurements synchronized on dylos 
 # 
-def run_test(sleep_interval, paths, raw_sample_folder_path):
+def run_test(sleep_interval, paths):
 	# open arduino serial ports once at the beginning of the test, (not HHPC and Dylos)
 	# so the arduino board does not reset and lose state
 	# the HHPC and Dylos require the serial port to be reopened before each command, 
@@ -162,14 +162,14 @@ def main():
 		while True:
 			go = raw_input('enter t to test and q to quit: ')
 			if go is 't':
-				run_test(sleep_interval, paths, raw_sample_folder_path)
+				run_test(sleep_interval, paths)
 			elif go is 'q':
 				break
 			else: 
 				print('wrong input')				
 
 	else:
-		run_test(sleep_interval, paths, raw_sample_folder_path)
+		run_test(sleep_interval, paths)
 
 	print('\nTest complete!')
 
