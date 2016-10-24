@@ -15,12 +15,12 @@ import serial
 serial_data = {
 	"dylos_comport": '/dev/cu.usbserial',
 	"hhpc_comport": '/dev/cu.KeySerial1',
-	"internal_arduino_comport": '/dev/cu.usbmodem1A1221', #fan, dylos servo, ambient chamber readings, mypart signalling
+	"internal_arduino_comport": '/dev/cu.usbmodem1D1321', #fan, dylos servo, ambient chamber readings, mypart signalling
 	"external_arduino_comport": '/dev/cu.usbmodem1431', #vacuum
 	"gzll_rfduino_comport": '/dev/cu.usbserial-DN00CSKF', #rfduino for hosting gzll communication to myparts
 	"baud": 9600,
 	"tm": 100,
-	"mypart_tm": 5
+	"mypart_tm": 3 #be careful about how long you make this; it can throw off overall timing if too long
 }
 
 
@@ -41,7 +41,7 @@ samples = 2
 vacuum_time = 0 # seconds to run vacuum in between cycles
 mix_time = -1 # seconds to run fan between cycles; if you want to mix continuously during measurement, this should be -1
 sleep_minutes = 0 # how many minutes you want the chamber off for in between cycles
-num_myparts = 0 # how many myparts you are testing at once
+num_myparts = 3 # how many myparts you are testing at once
 
 
 # set these to true if you are including that sensor in the current test
@@ -50,7 +50,7 @@ num_myparts = 0 # how many myparts you are testing at once
 sensor_on = {
 	"dylos": True,
 	"hhpc": True,
-	"mypart": False,
+	"mypart": True,
 	"saleae": False
 }
 

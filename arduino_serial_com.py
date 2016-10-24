@@ -57,6 +57,8 @@ def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
 	device_data = ["nnnn"] * num_myparts
 	lost = False
 	retries = 1
+	# Be careful about upping retries; if it takes too long trying
+	# to get the data, overall timing will get thrown off
 	while (retries > 0):
 		for count in range(num_myparts):
 			tp = try_to_read_mypart(gzll_ser)	
@@ -67,8 +69,7 @@ def record_mypart_data(gzll_ser, mypart_ser, num_myparts, csv_path, sample_id):
 		if lost:
 			retries = retries - 1
 			lost = False
-			if retries > 0:
-				print "oh no gzll lost some data...trying again..."
+			print "oh no gzll lost some data...trying again..."
 		else:
 			break
 
