@@ -1,4 +1,4 @@
-#include "HumiditySensor.h"
+#include "HDC1080_sensor.h"
 
 
 // ----- Globals -----

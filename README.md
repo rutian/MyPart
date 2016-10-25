@@ -41,18 +41,18 @@ This is the main automation file.  To run an automated test, run this file. Over
 
 #### Custom Libraries
 
-##### HumiditySensor 
+##### HDC1080_sensor_H 
 
-This library defines a simple Arduino wrapper for the  humidity sensor.  This sensor is used both in the automated testing chamber, and in the MyPart sensor.
+This library defines a simple Arduino wrapper for the Texas Instruments HDC1080 humidity sensor.  This sensor is used both in the automated testing chamber, and in the MyPart sensor.
 
-##### LEDDriver
+##### TCA6507_driver
 
-This library defines a simple Arduino wrapper for the   LED driver.  This driver is used in the MyPart sensor.
+This library defines a simple Arduino wrapper for the Texas Instruments TCA6507 LED driver.  This driver is used in the MyPart sensor.
 
 
 #### Custom Sketches
 
-##### gzll_host_test.ino
+##### mypart_gzll_host.ino
 
 This file listens for data returned from the gzll client running on each MyPart sensor.  When it receives data, it passes them on via serial so the python testing scripts can pick them up and record them.  This file should be run on an RFduino. 
 

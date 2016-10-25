@@ -5,7 +5,7 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_TSL2561_U.h>
-#include <HumiditySensor.h>
+#include <HDC1080_sensor.h>
 
 Servo sv;
 

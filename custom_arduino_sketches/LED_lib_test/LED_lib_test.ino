@@ -1,6 +1,6 @@
 #include <Wire.h>
-#include <LEDDriver.h>
-#include <HumiditySensor.h>
+#include <TCA6507_driver.h>
+#include <HDC1080_sensor.h>
  
 LEDDriver driver;
 HumiditySensor sensor;

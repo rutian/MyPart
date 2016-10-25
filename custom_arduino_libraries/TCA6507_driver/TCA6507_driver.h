@@ -1,5 +1,5 @@
-#ifndef LEDDriver_H
-#define LEDDriver_H
+#ifndef TCA6507_driver_H
+#define TCA6507_driver_H
  
 #include <Arduino.h>
 #include <Wire.h>

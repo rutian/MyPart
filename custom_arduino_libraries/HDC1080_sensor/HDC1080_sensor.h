@@ -1,5 +1,5 @@
-#ifndef HumiditySensor_H
-#define HumiditySensor_H
+#ifndef HDC1080_sensor_H
+#define HDC1080_sensor_H
  
 #include <Arduino.h>
 #include <Wire.h>
