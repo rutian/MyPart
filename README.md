@@ -2,6 +2,8 @@ Files slowly trickling in
 
 Contains original design files/source code for the MyPart device, testing chamber, and nebulizing setup.
 
+![in progress](images/in_progress.jpg "swarf")
+
 
 ## Introduction
 
