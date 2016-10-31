@@ -16,6 +16,8 @@ Contains original design files/source code for the MyPart device, testing chambe
 
 ## Collaborators
 
+Sarah Sterman, Ethan Chiou, Chris Myers, Eric Paulos 
+
 
 
 ## Build Instructions
