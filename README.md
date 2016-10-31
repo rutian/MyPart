@@ -3,7 +3,7 @@ Files slowly trickling in
 Contains original design files/source code for the MyPart device, testing chamber, and nebulizing setup.
 
 ![in progress](images/in_progress.jpg "swarf")
-
+![exploded view](images/MyPart_V0_with_case_exploded "exploded drawing")
 
 ## Introduction
 
@@ -12,7 +12,6 @@ Contains original design files/source code for the MyPart device, testing chambe
 
 
 ## History
-
 
 
 ## Collaborators
@@ -27,6 +26,7 @@ Instructions for building a MyPart sensor, test chamber, and mono-dispersed part
 ## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
+
 
 
 

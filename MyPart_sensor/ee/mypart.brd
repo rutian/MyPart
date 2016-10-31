@@ -1041,7 +1041,7 @@ This DRC checks for the absolute minimum clearances and should only be used when
 <element name="C14" library="microbuilder" package="0603-MINI" value=".1uf" x="20.066" y="17.78"/>
 <element name="C21" library="microbuilder" package="0603-MINI" value="10uF" x="17.272" y="16.383"/>
 <element name="DIGITAL_REG" library="microbuilder" package="SOT23-5" value="tps73033" x="17.78" y="20.066" rot="R90"/>
-<element name="C9" library="microbuilder" package="0603-MINI" value=".1uf" x="24.638" y="27.432" rot="R180"/>
+<element name="C9" library="microbuilder" package="0603-MINI" value=".1uf" x="25.781" y="27.178" rot="R180"/>
 <element name="C10" library="microbuilder" package="0603-MINI" value="10uF" x="24.638" y="28.956" rot="R180"/>
 <element name="ANALOG_REG" library="microbuilder" package="SOT23-5" value="tps73033" x="28.956" y="28.448"/>
 <element name="IC2" library="adafruit" package="SOT23-5L" value="MCP73831/OT" x="32.766" y="13.716" rot="R270"/>
@@ -1192,8 +1192,8 @@ This DRC checks for the absolute minimum clearances and should only be used when
 <contactref element="C15" pad="2"/>
 <via x="23.876" y="43.18" extent="1-16" drill="0.6"/>
 <polygon width="0.4064" layer="1">
-<vertex x="24.13" y="26.67"/>
-<vertex x="24.13" y="29.972"/>
+<vertex x="24.511" y="26.67"/>
+<vertex x="24.511" y="29.972"/>
 <vertex x="21.59" y="29.972"/>
 <vertex x="21.59" y="26.67"/>
 </polygon>
@@ -1221,6 +1221,7 @@ This DRC checks for the absolute minimum clearances and should only be used when
 <wire x1="28.448" y1="35.306" x2="29.258528125" y2="35.306" width="0.3048" layer="1"/>
 <wire x1="29.258528125" y1="35.306" x2="29.322028125" y2="35.2425" width="0.3048" layer="1"/>
 <wire x1="28.915" y1="36.2608" x2="28.265" y2="36.2608" width="0.4064" layer="1"/>
+<wire x1="25.654" y1="27.178" x2="25.031" y2="27.178" width="0" layer="19" extent="1-16"/>
 </signal>
 <signal name="GAIN_STAGE_2">
 <contactref element="R8" pad="1"/>
@@ -1560,9 +1561,6 @@ This DRC checks for the absolute minimum clearances and should only be used when
 <wire x1="25.72" y1="22.606" x2="28.006" y2="24.892" width="0.4064" layer="1"/>
 <wire x1="23.876" y1="22.606" x2="22.01" y2="22.606" width="0.4064" layer="1"/>
 <wire x1="22.01" y1="22.606" x2="21.844" y2="22.772" width="0.4064" layer="1"/>
-<wire x1="28.006" y1="27.1479" x2="26.9541" y2="27.1479" width="0.4064" layer="1"/>
-<wire x1="26.9541" y1="27.1479" x2="26.67" y2="27.432" width="0.4064" layer="1"/>
-<wire x1="26.67" y1="27.432" x2="25.388" y2="27.432" width="0.4064" layer="1"/>
 <wire x1="19.0801" y1="19.116" x2="19.0801" y2="18.0159" width="0.3048" layer="1"/>
 <wire x1="19.0801" y1="18.0159" x2="19.316" y2="17.78" width="0.3048" layer="1"/>
 <wire x1="30.668" y1="12.766" x2="29.718" y2="13.716" width="0.4064" layer="1"/>
@@ -1577,6 +1575,8 @@ This DRC checks for the absolute minimum clearances and should only be used when
 <wire x1="30.695" y1="11.391" x2="31.369" y2="12.065" width="0.4064" layer="1"/>
 <wire x1="31.369" y1="12.065" x2="31.369" y2="12.669" width="0.4064" layer="1"/>
 <wire x1="31.369" y1="12.669" x2="31.466" y2="12.766" width="0.4064" layer="1"/>
+<wire x1="26.531" y1="27.178" x2="28.006" y2="27.178" width="0.4064" layer="1"/>
+<wire x1="28.006" y1="27.178" x2="28.006" y2="27.1479" width="0.4064" layer="1"/>
 </signal>
 <signal name="N$4">
 <contactref element="R5" pad="2"/>
@@ -1928,7 +1928,6 @@ This DRC checks for the absolute minimum clearances and should only be used when
 </signal>
 <signal name="A_EN">
 <contactref element="ANALOG_REG" pad="3"/>
-<wire x1="29.906" y1="27.1479" x2="31.4779" y2="27.1479" width="0.4064" layer="1"/>
 <wire x1="29.906" y1="27.1479" x2="29.906" y2="25.588" width="0.4064" layer="1"/>
 <wire x1="29.906" y1="25.588" x2="27.432" y2="23.114" width="0.4064" layer="1"/>
 <wire x1="27.432" y1="23.114" x2="27.432" y2="22.352" width="0.4064" layer="1"/>
