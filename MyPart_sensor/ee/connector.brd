@@ -160,6 +160,14 @@
 <rectangle x1="19.685" y1="10.795" x2="20.955" y2="13.97" layer="1"/>
 <hole x="19.05" y="2.54" drill="3.2"/>
 <hole x="3.81" y="2.54" drill="3.2"/>
+<text x="3.175" y="15.24" size="1.778" layer="25" rot="R90">gnd</text>
+<text x="5.715" y="15.24" size="1.778" layer="25" rot="R90">5.0V for charging</text>
+<text x="8.255" y="15.24" size="1.778" layer="25" rot="R90">NC</text>
+<text x="10.795" y="15.24" size="1.778" layer="25" rot="R90">RST</text>
+<text x="13.335" y="15.24" size="1.778" layer="25" rot="R90">button</text>
+<text x="15.875" y="15.24" size="1.778" layer="25" rot="R90">RX</text>
+<text x="18.415" y="15.24" size="1.778" layer="25" rot="R90">TX</text>
+<text x="20.955" y="15.24" size="1.778" layer="25" rot="R90">mypart_gpio</text>
 </plain>
 <libraries>
 <library name="Custom">

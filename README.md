@@ -4,6 +4,9 @@ Contains original design files/source code for the MyPart device, testing chambe
 
 ![in progress](images/in_progress.jpg "swarf")
 ![exploded view](images/MyPart_V0_with_case_exploded.png "exploded drawing")
+![size of sensor](images/size_of_sensor.jpg "size")
+![form factors](images/form_factors.jpg "forms")
+
 
 ## Introduction
 
