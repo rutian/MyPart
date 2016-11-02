@@ -12,3 +12,4 @@ analog_digital_regs: helper board for powering the test boards
 
 board_layout_sketch: used to sketch out the high level layout of the board
 
+humidity_led_breakout: breakout board for testing the TI HDC1080 humidity sensor and TI TCA6507 LED driver
