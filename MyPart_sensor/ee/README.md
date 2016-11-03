@@ -4,12 +4,12 @@ mypart: file for the sensor itself
 
 connector: adapter for the .5mm FPC to .1" header pins
 
-old_board_flipped: file for testing placement of photodiode
+old\_board\_flipped: file for testing placement of photodiode
 
-old_board_right: file for testing placement of photodiode
+old\_board\_right: file for testing placement of photodiode
 
-analog_digital_regs: helper board for powering the test boards
+analog\_digital\_regs: helper board for powering the test boards
 
-board_layout_sketch: used to sketch out the high level layout of the board
+board\_layout\_sketch: used to sketch out the high level layout of the board
 
-humidity_led_breakout: breakout board for testing the TI HDC1080 humidity sensor and TI TCA6507 LED driver
+humidity\_led\_breakout: breakout board for testing the TI HDC1080 humidity sensor and TI TCA6507 LED driver
