@@ -5,7 +5,7 @@ Chamber for testing air particle sensors in a variety of conditions. Contains de
 
 ## high level block diagram
 
-[blocks](https://github.com/rutian/MyPart/tree/master/images/diagram_chamber_v2)
+![block diagram](https://github.com/rutian/MyPart/tree/master/images/diagram_chamber_v2.png)
 
 
 ## build instructions
