@@ -6,6 +6,7 @@
 * stand.ipt : Wooden stand to mount the nebulizing setup to
 * stand_cam.iam : CAM setup for CNC milling
 * FR_bounding_box.ipt : simplified model of the filter and regulator. Used to size the back plage of stand.ipt
+* desiccant_tray.ai : laser cuttable tray for suspending desiccant inside the chamber
 
 
 ## Production Files
