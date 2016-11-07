@@ -39,8 +39,8 @@ struct sensor_data data;
 #include <Wire.h> 
 
 // external ICs
-#include <LEDDriver.h>  // our gpio expander
-#include <HDC1080_HumiditySensor.h> // humidity and temperature
+#include <TCA6507_driver.h>  // our gpio expander
+#include <HDC1080_sensor.h> // humidity and temperature
 
 // standard issue
 #include <stdio.h>
