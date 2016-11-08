@@ -8,7 +8,7 @@ To set voltage thresholds for approximately sizing particles that are sensed in 
 
 ## Build Instructions
 
-More information about this mono-dispersed particle generator setup as well as detailed build instructions can be found [here TODO]( TODO: instructables link here). 
+More information about this mono-dispersed particle generator setup as well as detailed build instructions can be found [here](http://www.instructables.com/id/How-to-Build-a-Monodisperse-Particle-Generator-for/). 
 
 ## Bill of Materials
 

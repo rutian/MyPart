@@ -4,7 +4,7 @@
 
 ## Build Instructions
 
-More information about the sensor, along with detailed build instructions can be found [here todo](link)
+More information about the sensor, along with detailed build instructions can be found [here](http://www.instructables.com/id/How-to-Build-a-Portable-Accurate-Low-Cost-Open-Sou/)
 
 ## Bill of Materials
 

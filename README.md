@@ -16,7 +16,7 @@ For information about the tests that we ran, design rationale of the air flow ch
 
 ## Build Instructions
 
-Instructions for building a MyPart sensor, test chamber, and mono-dispersed particle generator can be found here, here, and here.
+Instructions for building a MyPart sensor, test chamber, and mono-dispersed particle generator can be found [here](http://www.instructables.com/id/How-to-Build-a-Portable-Accurate-Low-Cost-Open-Sou/), [here](http://www.instructables.com/id/How-to-Build-a-Test-Chamber-for-Air-Particle-Senso/), and [here](http://www.instructables.com/id/How-to-Build-a-Monodisperse-Particle-Generator-for/).
 
 ## Abridged History
 
@@ -24,11 +24,13 @@ Instructions for building a MyPart sensor, test chamber, and mono-dispersed part
 
 ## Collaborators
 
-This project would not have been possible without the support of Sarah Sterman, Ethan Chiou, Chris Myers, and Eric Paulos.
+This project would not have been possible without the support of Sarah Sterman, [Ethan Chiou](http://echiou.com/), Chris Myers, and [Eric Paulos](paulos.net).
 
 ## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
+
+
 
 
 
