@@ -1,6 +1,6 @@
-# Design and fabrication files for a laser air particle counter
+## Design and fabrication files for a laser air particle counter
 
-![device under construction](../device_under_construction.jpg "picture of device assembly")
+![device under construction](../images/device_under_construction.jpg "picture of device assembly")
 
 ## Build Instructions
 
