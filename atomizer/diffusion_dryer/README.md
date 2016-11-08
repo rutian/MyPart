@@ -32,6 +32,10 @@ Spring attached via pipe nipple.
 
 ![spring attached to the inner piece via a pipe nipple](images/spring.jpg)
 
+Getting ready for turning between centers.
+
+![between centers](images/between_centers.jpg)
+
 End caps post machined with o-rings attached.
 
 ![end caps with o-rings attached](images/end_caps.jpg)
