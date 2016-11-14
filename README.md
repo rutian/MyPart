@@ -26,7 +26,6 @@ Instructions for building a MyPart sensor, test chamber, and mono-dispersed part
 
 This project is created by [Rundong Tian](www.rundongtian.com), Sarah Sterman, [Ethan Chiou](http://echiou.com/), Chris Myers, and [Eric Paulos](paulos.net), members of the [Hybrid Ecologies Lab](http://www.hybrid-ecologies.org) at UC Berkeley.
 
-This project would not have been possible without the support of Sarah Sterman, 
 ## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
